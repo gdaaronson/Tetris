@@ -14,6 +14,13 @@ public class TetrisModelTest {
 		t = new TetrisModel(5,5);
 	}
 
+	@Test
+	public void rotateI(){
+		t.spawnI();
+		t.rotate();
+		System.out.println(t.getCurrentBrick());
+		assertEquals("o....\no....\no....\no....\n.....\n", t.toString());
+	}
 	
 	@Test
 	public void stoppingDownTest(){

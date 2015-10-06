@@ -7,6 +7,8 @@ public class Brick {
 	
 	private char key;
 	
+	private Orentation orentation;
+	
 	public char getKey() {
 		return key;
 	}
@@ -14,6 +16,7 @@ public class Brick {
 	public Brick(char key, Block ... blocks){
 		brick = blocks;
 		this.key = key;
+		orentation = Orentation.UPRIGHT;
 	}
 	
 	public Block[] getBrick(){
@@ -23,7 +26,9 @@ public class Brick {
 	public void swapBlock(Block old, Block current){
 		for(int i = 0; i < brick.length; i++){
 			if(old.equals(brick[i])){
+				old.toggle();
 				brick[i] = current;
+				current.toggle();
 			}
 		}
 	}
@@ -34,5 +39,13 @@ public class Brick {
 			s += b.toString();
 		}
 		return s;
+	}
+
+	public Orentation getOrentation() {
+		return orentation;
+	}
+
+	public void setOrentation(Orentation orentation) {
+		this.orentation = orentation;
 	}
 }
