@@ -106,7 +106,7 @@ public class TetrisModelTest {
 		assertEquals("oooo.\n.....\n.....\n.....\n.....\n", t.toString());
 		t.moveRight();
 		assertEquals(".oooo\n.....\n.....\n.....\n.....\n", t.toString());
-		t.moveLeftDuckTape();
+		t.moveLeft();
 		assertEquals("oooo.\n.....\n.....\n.....\n.....\n", t.toString());
 		t.moveDown();
 		assertEquals(".....\noooo.\n.....\n.....\n.....\n", t.toString());
@@ -118,7 +118,7 @@ public class TetrisModelTest {
 		assertEquals(".ooo.\n...o.\n.....\n.....\n.....\n", t.toString());
 		t.moveRight();
 		assertEquals("..ooo\n....o\n.....\n.....\n.....\n", t.toString());
-		t.moveLeftDuckTape();
+		t.moveLeft();
 		assertEquals(".ooo.\n...o.\n.....\n.....\n.....\n", t.toString());
 		t.moveDown();
 		assertEquals(".....\n.ooo.\n...o.\n.....\n.....\n", t.toString());
@@ -130,7 +130,7 @@ public class TetrisModelTest {
 		assertEquals(".ooo.\n.o...\n.....\n.....\n.....\n", t.toString());
 		t.moveRight();
 		assertEquals("..ooo\n..o..\n.....\n.....\n.....\n", t.toString());
-		t.moveLeftDuckTape();
+		t.moveLeft();
 		assertEquals(".ooo.\n.o...\n.....\n.....\n.....\n", t.toString());
 		t.moveDown();
 		assertEquals(".....\n.ooo.\n.o...\n.....\n.....\n", t.toString());
@@ -142,7 +142,7 @@ public class TetrisModelTest {
 		assertEquals("..oo.\n..oo.\n.....\n.....\n.....\n", t.toString());
 		t.moveRight();
 		assertEquals("...oo\n...oo\n.....\n.....\n.....\n", t.toString());
-		t.moveLeftDuckTape();
+		t.moveLeft();
 		assertEquals("..oo.\n..oo.\n.....\n.....\n.....\n", t.toString());
 		t.moveDown();
 		assertEquals(".....\n..oo.\n..oo.\n.....\n.....\n", t.toString());
@@ -154,7 +154,7 @@ public class TetrisModelTest {
 		assertEquals("..oo.\n.oo..\n.....\n.....\n.....\n", t.toString());
 		t.moveRight();
 		assertEquals("...oo\n..oo.\n.....\n.....\n.....\n", t.toString());
-		t.moveLeftDuckTape();
+		t.moveLeft();
 		assertEquals("..oo.\n.oo..\n.....\n.....\n.....\n", t.toString());
 		t.moveDown();
 		assertEquals(".....\n..oo.\n.oo..\n.....\n.....\n", t.toString());
@@ -166,7 +166,7 @@ public class TetrisModelTest {
 		assertEquals(".ooo.\n..o..\n.....\n.....\n.....\n", t.toString());
 		t.moveRight();
 		assertEquals("..ooo\n...o.\n.....\n.....\n.....\n", t.toString());
-		t.moveLeftDuckTape();
+		t.moveLeft();
 		assertEquals(".ooo.\n..o..\n.....\n.....\n.....\n", t.toString());
 		t.moveDown();
 		assertEquals(".....\n.ooo.\n..o..\n.....\n.....\n", t.toString());
@@ -178,7 +178,7 @@ public class TetrisModelTest {
 		assertEquals(".oo..\n..oo.\n.....\n.....\n.....\n", t.toString());
 		t.moveRight();
 		assertEquals("..oo.\n...oo\n.....\n.....\n.....\n", t.toString());
-		t.moveLeftDuckTape();
+		t.moveLeft();
 		assertEquals(".oo..\n..oo.\n.....\n.....\n.....\n", t.toString());
 		t.moveDown();
 		assertEquals(".....\n.oo..\n..oo.\n.....\n.....\n", t.toString());

@@ -84,6 +84,7 @@ public class TetrisModel {
 		return counter == width;
 	}
 
+	/** Returns the current brick*/
 	public Brick getCurrentBrick() {
 		return currentBrick;
 	}
@@ -121,17 +122,8 @@ public class TetrisModel {
 		toggleBlock();
 	}
 	
-	/** Moves the brick left */
+	/** Moves the brick left, for some reason it must be down the oppsite way of move right */	
 	public void moveLeft() {
-		//TODO figure out how to switch which blocks are in the current brick
-		toggleBlock();
-		for (Block block : currentBrick.getBrick()) {
-			currentBrick.swapBlock(block, board[block.getDepth()][block.getWidth() - 1]);
-		}
-		toggleBlock();
-	}
-	
-	public void moveLeftDuckTape() {
 		toggleBlock();
 		for (int i = currentBrick.getBrick().length - 1; i >=0; i--) {
 			currentBrick.swapBlock(currentBrick.getBrick()[i], board[currentBrick.getBrick()[i].getDepth()][currentBrick.getBrick()[i].getWidth() - 1]);
@@ -148,20 +140,12 @@ public class TetrisModel {
 //			block.toggle();
 		}
 		toggleBlock();
-	}	
-
-	public void moveRightDuckTape() {
-		toggleBlock();
-		for (int i = currentBrick.getBrick().length - 1; i >=0; i--) {
-			currentBrick.swapBlock(currentBrick.getBrick()[i], board[currentBrick.getBrick()[i].getDepth()][currentBrick.getBrick()[i].getWidth() + 1]);
-		}
-		toggleBlock();
 	}
 	
 	/** This sets the row back to null */
 	private void nullRow(int row) {
 		for (int i = 0; i < board[row].length; i++) {
-			board[row][i] = null;
+			board[row][i].toggle();
 		}
 		sinkDown(row);
 	}
@@ -191,6 +175,7 @@ public class TetrisModel {
 	/** This method moves down every brick above the row */
 	private void sinkDown(int row) {
 		for (int i = row - 1; i >= 0; i--) {
+			//TODO see if this is okay
 			if (board[i] != null) {
 				Block[] temp = board[i];
 				board[i] = board[i + 1];
@@ -201,6 +186,7 @@ public class TetrisModel {
 
 	/** Spawns the I shaped block and sets the active block to it */
 	public void spawnI() {
+		//TODO uses off sets some how
 //		Block[] blocks = new Block[4];
 //		for(int[] off: OFFSETI ){
 //			turnOn(off[0], off[1] + width/2);
