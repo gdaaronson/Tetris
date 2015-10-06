@@ -18,8 +18,15 @@ public class TetrisModelTest {
 	public void rotateI(){
 		t.spawnI();
 		t.rotate();
-		System.out.println(t.getCurrentBrick());
 		assertEquals("o....\no....\no....\no....\n.....\n", t.toString());
+		t.rotate();
+		assertEquals("oooo.\n.....\n.....\n.....\n.....\n", t.toString());
+		t.moveRight();
+		assertEquals(".oooo\n.....\n.....\n.....\n.....\n", t.toString());
+		t.rotate();
+		assertEquals(".o...\n.o...\n.o...\n.o...\n.....\n", t.toString());
+//		t.moveRight();
+//		assertEquals("..o..\n..o..\n..o..\n..o..\n.....\n", t.toString());
 	}
 	
 	@Test

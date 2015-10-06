@@ -300,9 +300,15 @@ public class TetrisModel {
 
 	private void rotateI() {
 		if(currentBrick.getOrentation() == Orentation.UPRIGHT){
-			currentBrick.swapBlock(currentBrick.getBrick()[0], board[currentBrick.getBrick()[3].getDepth() + 3][currentBrick.getBrick()[3].getWidth()]);
-			currentBrick.swapBlock(currentBrick.getBrick()[1], board[currentBrick.getBrick()[3].getDepth() + 1][currentBrick.getBrick()[3].getWidth()]);
-			currentBrick.swapBlock(currentBrick.getBrick()[2], board[currentBrick.getBrick()[3].getDepth() + 2][currentBrick.getBrick()[3].getWidth()]);
+			currentBrick.swapBlock(currentBrick.getBrick()[0], board[currentBrick.getBrick()[3].getDepth() + 1][currentBrick.getBrick()[3].getWidth()]);
+			currentBrick.swapBlock(currentBrick.getBrick()[1], board[currentBrick.getBrick()[3].getDepth() + 2][currentBrick.getBrick()[3].getWidth()]);
+			currentBrick.swapBlock(currentBrick.getBrick()[2], board[currentBrick.getBrick()[3].getDepth() + 3][currentBrick.getBrick()[3].getWidth()]);
+			currentBrick.setOrentation(Orentation.CLOCKWISE);
+		}else{
+			currentBrick.swapBlock(currentBrick.getBrick()[0], board[currentBrick.getBrick()[3].getDepth()][currentBrick.getBrick()[3].getWidth() + 3]);
+			currentBrick.swapBlock(currentBrick.getBrick()[1], board[currentBrick.getBrick()[3].getDepth()][currentBrick.getBrick()[3].getWidth() + 2]);
+			currentBrick.swapBlock(currentBrick.getBrick()[2], board[currentBrick.getBrick()[3].getDepth()][currentBrick.getBrick()[3].getWidth() + 1]);
+			currentBrick.setOrentation(Orentation.UPRIGHT);
 		}
 		
 	}
