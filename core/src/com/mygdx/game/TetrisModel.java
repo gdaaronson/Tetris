@@ -11,6 +11,12 @@ public class TetrisModel {
 	private Brick currentBrick;
 
 	private int height;
+	
+	public static final int[][] OFFSETS = {
+			{0, -2},{0, -1}, {0, 0}, {0, 1},
+					{1, -1}, {1, 0}, {1, 1}
+	};
+
 
 	/** The width of the board */
 	private int width;
