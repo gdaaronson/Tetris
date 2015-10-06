@@ -17,6 +17,9 @@ public class TetrisModel {
 					{1, -1}, {1, 0}, {1, 1}
 	};
 
+	public static final int[][] OFFSETI = {
+			{0, -2},{0, -1}, {0, 0}, {0, 1}
+	};
 
 	/** The width of the board */
 	private int width;
@@ -111,30 +114,41 @@ public class TetrisModel {
 
 	/** Moves the brick down */
 	public void moveDown(Brick brick) {
+		toggleBlock();
 		for (Block block : brick.getBrick()) {
 			brick.swapBlock(block, board[block.getDepth() + 1][block.getWidth()]);
 		}
+		toggleBlock();
 	}
 	
 	/** Moves the brick left */
 	public void moveLeft(Brick brick) {
 		//TODO figure out how to switch which blocks are in the current brick
+		toggleBlock();
 		for (Block block : brick.getBrick()) {
 			brick.swapBlock(block, board[block.getDepth()][block.getWidth() - 1]);
 		}
-		for (Block block : brick.getBrick()) {
-			block.toggle();
-			toggle(block.getDepth(), block.getWidth() + 1);
+		toggleBlock();
+	}
+	
+	public void moveLeftDuckTape(Brick brick) {
+		//TODO figure out how to switch which blocks are in the current brick
+		toggleBlock();
+		for (int i = brick.getBrick().length - 1; i >=0; i--) {
+			brick.swapBlock(brick.getBrick()[i], board[brick.getBrick()[i].getDepth()][brick.getBrick()[i].getWidth() - 1]);
 		}
+		toggleBlock();
 	}
 	
 	/** Moves the brick right */
 	public void moveRight(Brick brick) {
+		toggleBlock();
 		for (Block block : brick.getBrick()) {
-			block.toggle();
+//			block.toggle();
 			brick.swapBlock(block, board[block.getDepth()][block.getWidth() + 1]);
-			block.toggle();
+//			block.toggle();
 		}
+		toggleBlock();
 	}	
 
 	/** This sets the row back to null */
@@ -180,8 +194,15 @@ public class TetrisModel {
 
 	/** Spawns the I shaped block and sets the active block to it */
 	public void spawnI() {
-		currentBrick = new Brick(turnOnAndReturn(0, width / 2 - 1), turnOnAndReturn(0, width / 2 + 1),
-				turnOnAndReturn(0, width / 2 - 2), turnOnAndReturn(0, width / 2));
+//		Block[] blocks = new Block[4];
+//		for(int[] off: OFFSETI ){
+//			turnOn(off[0], off[1] + width/2);
+//		}
+//		for(Block b: blocks){
+//			
+//		}
+		currentBrick = new Brick(turnOnAndReturn(0, width / 2 + 1), turnOnAndReturn(0, width / 2),
+				turnOnAndReturn(0, width / 2 - 1), turnOnAndReturn(0, width / 2 - 2));
 	}
 
 	/** Spawns the J shaped block and sets the active block to it */
@@ -224,6 +245,13 @@ public class TetrisModel {
 	private void toggle(int i, int j) {
 		board[i][j].toggle();
 	}
+	
+	/** Toggles the whole block*/
+	private void toggleBlock(){
+		for(Block b: currentBrick.getBrick()){
+			b.toggle();
+		}
+	}
 
 	public String toString() {
 		String s = "";
@@ -242,12 +270,12 @@ public class TetrisModel {
 
 	/** Turns on a block */
 	public void turnOn(int i, int j) {
-		board[i][j].setOn(true);
+		board[i][j].toggle();
 	}
 
 	/** Turns on a block and returns the block */
 	public Block turnOnAndReturn(int i, int j) {
-		board[i][j].setOn(true);
+		board[i][j].toggle();
 		return board[i][j];
 	}
 

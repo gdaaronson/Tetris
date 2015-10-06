@@ -16,9 +16,9 @@ public class Brick {
 	public void swapBlock(Block old, Block current){
 		for(int i = 0; i < brick.length; i++){
 			if(old.equals(brick[i])){
-				old.toggle();
+				//old.toggle();
 				brick[i] = current;
-				current.toggle();
+				//current.toggle();
 			}
 		}
 	}
