@@ -113,38 +113,38 @@ public class TetrisModel {
 	}
 
 	/** Moves the brick down */
-	public void moveDown(Brick brick) {
+	public void moveDown() {
 		toggleBlock();
-		for (Block block : brick.getBrick()) {
-			brick.swapBlock(block, board[block.getDepth() + 1][block.getWidth()]);
+		for (Block block : currentBrick.getBrick()) {
+			currentBrick.swapBlock(block, board[block.getDepth() + 1][block.getWidth()]);
 		}
 		toggleBlock();
 	}
 	
 	/** Moves the brick left */
-	public void moveLeft(Brick brick) {
+	public void moveLeft() {
 		//TODO figure out how to switch which blocks are in the current brick
 		toggleBlock();
-		for (Block block : brick.getBrick()) {
-			brick.swapBlock(block, board[block.getDepth()][block.getWidth() - 1]);
+		for (Block block : currentBrick.getBrick()) {
+			currentBrick.swapBlock(block, board[block.getDepth()][block.getWidth() - 1]);
 		}
 		toggleBlock();
 	}
 	
-	public void moveLeftDuckTape(Brick brick) {
+	public void moveLeftDuckTape() {
 		toggleBlock();
-		for (int i = brick.getBrick().length - 1; i >=0; i--) {
-			brick.swapBlock(brick.getBrick()[i], board[brick.getBrick()[i].getDepth()][brick.getBrick()[i].getWidth() - 1]);
+		for (int i = currentBrick.getBrick().length - 1; i >=0; i--) {
+			currentBrick.swapBlock(currentBrick.getBrick()[i], board[currentBrick.getBrick()[i].getDepth()][currentBrick.getBrick()[i].getWidth() - 1]);
 		}
 		toggleBlock();
 	}
 	
 	/** Moves the brick right */
-	public void moveRight(Brick brick) {
+	public void moveRight() {
 		toggleBlock();
-		for (Block block : brick.getBrick()) {
+		for (Block block : currentBrick.getBrick()) {
 //			block.toggle();
-			brick.swapBlock(block, board[block.getDepth()][block.getWidth() + 1]);
+			currentBrick.swapBlock(block, board[block.getDepth()][block.getWidth() + 1]);
 //			block.toggle();
 		}
 		toggleBlock();

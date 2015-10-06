@@ -33,7 +33,7 @@ public class TetrisModelTest {
 	public void testSpawnJ(){
 		t.insertBrick(1);
 		assertEquals(".ooo.\n...o.\n.....\n.....\n.....\n", t.toString());
-		t.moveDown(t.getCurrentBrick());
+		t.moveDown();
 		assertEquals(".....\n.ooo.\n...o.\n.....\n.....\n", t.toString());
 
 	}
@@ -42,7 +42,7 @@ public class TetrisModelTest {
 	public void testSpawnL(){
 		t.insertBrick(2);
 		assertEquals(".ooo.\n.o...\n.....\n.....\n.....\n", t.toString());
-		t.moveDown(t.getCurrentBrick());
+		t.moveDown();
 		assertEquals(".....\n.ooo.\n.o...\n.....\n.....\n", t.toString());
 
 	}
@@ -51,7 +51,7 @@ public class TetrisModelTest {
 	public void testSpawnO(){
 		t.insertBrick(3);
 		assertEquals("..oo.\n..oo.\n.....\n.....\n.....\n", t.toString());
-		t.moveDown(t.getCurrentBrick());
+		t.moveDown();
 		assertEquals(".....\n..oo.\n..oo.\n.....\n.....\n", t.toString());
 
 	}
@@ -60,7 +60,7 @@ public class TetrisModelTest {
 	public void testSpawnS(){
 		t.insertBrick(4);
 		assertEquals("..oo.\n.oo..\n.....\n.....\n.....\n", t.toString());
-		t.moveDown(t.getCurrentBrick());
+		t.moveDown();
 		assertEquals(".....\n..oo.\n.oo..\n.....\n.....\n", t.toString());
 
 	}
@@ -69,7 +69,7 @@ public class TetrisModelTest {
 	public void testSpawnT(){
 		t.insertBrick(5);
 		assertEquals(".ooo.\n..o..\n.....\n.....\n.....\n", t.toString());
-		t.moveDown(t.getCurrentBrick());
+		t.moveDown();
 		assertEquals(".....\n.ooo.\n..o..\n.....\n.....\n", t.toString());
 
 	}
@@ -78,7 +78,7 @@ public class TetrisModelTest {
 	public void testSpawnZ(){
 		t.insertBrick(6);
 		assertEquals(".oo..\n..oo.\n.....\n.....\n.....\n", t.toString());
-		t.moveDown(t.getCurrentBrick());
+		t.moveDown();
 		assertEquals(".....\n.oo..\n..oo.\n.....\n.....\n", t.toString());
 
 	}
@@ -119,12 +119,12 @@ public class TetrisModelTest {
 		t.spawnI();
 		
 		assertEquals("oooo.\n.....\n.....\n.....\n.....\n", t.toString());
-		t.moveRight(t.getCurrentBrick());
+		t.moveRight();
 		assertEquals(".oooo\n.....\n.....\n.....\n.....\n", t.toString());
-		//t.moveLeft(t.getCurrentBrick());
-		t.moveLeftDuckTape(t.getCurrentBrick());
+//		t.moveLeft();
+		t.moveLeftDuckTape();
 		assertEquals("oooo.\n.....\n.....\n.....\n.....\n", t.toString());
-		t.moveDown(t.getCurrentBrick());
+		t.moveDown();
 		assertEquals(".....\noooo.\n.....\n.....\n.....\n", t.toString());
 	}
 
@@ -133,7 +133,7 @@ public class TetrisModelTest {
 		t.spawnJ();
 		String s = ".ooo.\n...o.\n.....\n.....\n.....\n";
 		assertEquals(s, t.toString());
-		t.moveRight(t.getCurrentBrick());
+		t.moveRight();
 		s = "..ooo\n....o\n.....\n.....\n.....\n";
 		assertEquals(s, t.toString());
 	}
