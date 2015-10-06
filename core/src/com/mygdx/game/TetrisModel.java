@@ -150,6 +150,14 @@ public class TetrisModel {
 		toggleBlock();
 	}	
 
+	public void moveRightDuckTape() {
+		toggleBlock();
+		for (int i = currentBrick.getBrick().length - 1; i >=0; i--) {
+			currentBrick.swapBlock(currentBrick.getBrick()[i], board[currentBrick.getBrick()[i].getDepth()][currentBrick.getBrick()[i].getWidth() + 1]);
+		}
+		toggleBlock();
+	}
+	
 	/** This sets the row back to null */
 	private void nullRow(int row) {
 		for (int i = 0; i < board[row].length; i++) {
@@ -207,19 +215,20 @@ public class TetrisModel {
 	/** Spawns the J shaped block and sets the active block to it */
 	public void spawnJ() {
 		currentBrick = new Brick(turnOnAndReturn(1, width / 2 + 1), turnOnAndReturn(0, width / 2 + 1),
-				turnOnAndReturn(0, width / 2 - 1), turnOnAndReturn(0, width / 2));
+				turnOnAndReturn(0, width / 2), turnOnAndReturn(0, width / 2 - 1));
 	}
 
 	/** Spawns the L shaped block and sets the active block to it */
 	public void spawnL() {
-		currentBrick = new Brick(turnOnAndReturn(0, width / 2), turnOnAndReturn(1, width / 2 - 1),
-				turnOnAndReturn(0, width / 2 + 1), turnOnAndReturn(0, width / 2 - 1));
+		currentBrick = new Brick(turnOnAndReturn(0, width / 2 + 1), turnOnAndReturn(0, width / 2),
+				turnOnAndReturn(1, width / 2 - 1), turnOnAndReturn(0, width / 2 - 1));
 	}
 
 	/** Spawns the O shaped block and sets the active block to it */
 	public void spawnO() {
-		currentBrick = new Brick(turnOnAndReturn(1, width / 2), turnOnAndReturn(1, width / 2 + 1),
-				turnOnAndReturn(0, width / 2), turnOnAndReturn(0, width / 2 + 1));
+		//TODO make +1 into -1
+		currentBrick = new Brick(turnOnAndReturn(1, width / 2 + 1), turnOnAndReturn(1, width / 2),
+				turnOnAndReturn(0, width / 2 + 1), turnOnAndReturn(0, width / 2));
 	}
 
 	/** Spawns the S shaped block and sets the active block to it */
@@ -230,14 +239,14 @@ public class TetrisModel {
 
 	/** Spawns the T shaped block and sets the active block to it */
 	public void spawnT() {
-		currentBrick = new Brick(turnOnAndReturn(1, width / 2), turnOnAndReturn(0, width / 2 - 1),
-				turnOnAndReturn(0, width / 2 + 1), turnOnAndReturn(0, width / 2));
+		currentBrick = new Brick(turnOnAndReturn(1, width / 2), turnOnAndReturn(0, width / 2 + 1),
+				turnOnAndReturn(0, width / 2), turnOnAndReturn(0, width / 2 - 1));
 	}
 
 	/** Spawns the Z shaped block and sets the active block to it */
 	public void spawnZ() {
-		currentBrick = new Brick(turnOnAndReturn(1, width / 2), turnOnAndReturn(0, width / 2 - 1),
-				turnOnAndReturn(1, width / 2 + 1), turnOnAndReturn(0, width / 2));
+		currentBrick = new Brick(turnOnAndReturn(1, width / 2 + 1), turnOnAndReturn(1, width / 2),
+				turnOnAndReturn(0, width / 2), turnOnAndReturn(0, width / 2 - 1));
 	}
 
 	/** Toggles block i,j on or off */

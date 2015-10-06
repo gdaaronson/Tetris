@@ -33,8 +33,6 @@ public class TetrisModelTest {
 	public void testSpawnJ(){
 		t.insertBrick(1);
 		assertEquals(".ooo.\n...o.\n.....\n.....\n.....\n", t.toString());
-		t.moveDown();
-		assertEquals(".....\n.ooo.\n...o.\n.....\n.....\n", t.toString());
 
 	}
 	
@@ -42,8 +40,6 @@ public class TetrisModelTest {
 	public void testSpawnL(){
 		t.insertBrick(2);
 		assertEquals(".ooo.\n.o...\n.....\n.....\n.....\n", t.toString());
-		t.moveDown();
-		assertEquals(".....\n.ooo.\n.o...\n.....\n.....\n", t.toString());
 
 	}
 	
@@ -51,8 +47,6 @@ public class TetrisModelTest {
 	public void testSpawnO(){
 		t.insertBrick(3);
 		assertEquals("..oo.\n..oo.\n.....\n.....\n.....\n", t.toString());
-		t.moveDown();
-		assertEquals(".....\n..oo.\n..oo.\n.....\n.....\n", t.toString());
 
 	}
 	
@@ -60,8 +54,6 @@ public class TetrisModelTest {
 	public void testSpawnS(){
 		t.insertBrick(4);
 		assertEquals("..oo.\n.oo..\n.....\n.....\n.....\n", t.toString());
-		t.moveDown();
-		assertEquals(".....\n..oo.\n.oo..\n.....\n.....\n", t.toString());
 
 	}
 	
@@ -69,18 +61,12 @@ public class TetrisModelTest {
 	public void testSpawnT(){
 		t.insertBrick(5);
 		assertEquals(".ooo.\n..o..\n.....\n.....\n.....\n", t.toString());
-		t.moveDown();
-		assertEquals(".....\n.ooo.\n..o..\n.....\n.....\n", t.toString());
-
 	}
 	
 	@Test
 	public void testSpawnZ(){
 		t.insertBrick(6);
 		assertEquals(".oo..\n..oo.\n.....\n.....\n.....\n", t.toString());
-		t.moveDown();
-		assertEquals(".....\n.oo..\n..oo.\n.....\n.....\n", t.toString());
-
 	}
 	
 	@Test
@@ -117,11 +103,9 @@ public class TetrisModelTest {
 	@Test
 	public void moveITest(){
 		t.spawnI();
-		
 		assertEquals("oooo.\n.....\n.....\n.....\n.....\n", t.toString());
 		t.moveRight();
 		assertEquals(".oooo\n.....\n.....\n.....\n.....\n", t.toString());
-//		t.moveLeft();
 		t.moveLeftDuckTape();
 		assertEquals("oooo.\n.....\n.....\n.....\n.....\n", t.toString());
 		t.moveDown();
@@ -131,11 +115,72 @@ public class TetrisModelTest {
 	@Test
 	public void moveJTest(){
 		t.spawnJ();
-		String s = ".ooo.\n...o.\n.....\n.....\n.....\n";
-		assertEquals(s, t.toString());
+		assertEquals(".ooo.\n...o.\n.....\n.....\n.....\n", t.toString());
 		t.moveRight();
-		s = "..ooo\n....o\n.....\n.....\n.....\n";
-		assertEquals(s, t.toString());
+		assertEquals("..ooo\n....o\n.....\n.....\n.....\n", t.toString());
+		t.moveLeftDuckTape();
+		assertEquals(".ooo.\n...o.\n.....\n.....\n.....\n", t.toString());
+		t.moveDown();
+		assertEquals(".....\n.ooo.\n...o.\n.....\n.....\n", t.toString());
+	}
+	
+	@Test
+	public void moveLTest(){
+		t.spawnL();
+		assertEquals(".ooo.\n.o...\n.....\n.....\n.....\n", t.toString());
+		t.moveRight();
+		assertEquals("..ooo\n..o..\n.....\n.....\n.....\n", t.toString());
+		t.moveLeftDuckTape();
+		assertEquals(".ooo.\n.o...\n.....\n.....\n.....\n", t.toString());
+		t.moveDown();
+		assertEquals(".....\n.ooo.\n.o...\n.....\n.....\n", t.toString());
+	}
+	
+	@Test
+	public void moveOTest(){
+		t.spawnO();
+		assertEquals("..oo.\n..oo.\n.....\n.....\n.....\n", t.toString());
+		t.moveRight();
+		assertEquals("...oo\n...oo\n.....\n.....\n.....\n", t.toString());
+		t.moveLeftDuckTape();
+		assertEquals("..oo.\n..oo.\n.....\n.....\n.....\n", t.toString());
+		t.moveDown();
+		assertEquals(".....\n..oo.\n..oo.\n.....\n.....\n", t.toString());
 	}
 
+	@Test
+	public void moveSTest(){
+		t.spawnS();
+		assertEquals("..oo.\n.oo..\n.....\n.....\n.....\n", t.toString());
+		t.moveRight();
+		assertEquals("...oo\n..oo.\n.....\n.....\n.....\n", t.toString());
+		t.moveLeftDuckTape();
+		assertEquals("..oo.\n.oo..\n.....\n.....\n.....\n", t.toString());
+		t.moveDown();
+		assertEquals(".....\n..oo.\n.oo..\n.....\n.....\n", t.toString());
+	}
+	
+	@Test
+	public void moveTTest(){
+		t.spawnT();
+		assertEquals(".ooo.\n..o..\n.....\n.....\n.....\n", t.toString());
+		t.moveRight();
+		assertEquals("..ooo\n...o.\n.....\n.....\n.....\n", t.toString());
+		t.moveLeftDuckTape();
+		assertEquals(".ooo.\n..o..\n.....\n.....\n.....\n", t.toString());
+		t.moveDown();
+		assertEquals(".....\n.ooo.\n..o..\n.....\n.....\n", t.toString());
+	}
+	
+	@Test
+	public void moveZTest(){
+		t.spawnZ();
+		assertEquals(".oo..\n..oo.\n.....\n.....\n.....\n", t.toString());
+		t.moveRight();
+		assertEquals("..oo.\n...oo\n.....\n.....\n.....\n", t.toString());
+		t.moveLeftDuckTape();
+		assertEquals(".oo..\n..oo.\n.....\n.....\n.....\n", t.toString());
+		t.moveDown();
+		assertEquals(".....\n.oo..\n..oo.\n.....\n.....\n", t.toString());
+	}
 }
