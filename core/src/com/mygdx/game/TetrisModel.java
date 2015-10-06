@@ -132,7 +132,6 @@ public class TetrisModel {
 	}
 	
 	public void moveLeftDuckTape(Brick brick) {
-		//TODO figure out how to switch which blocks are in the current brick
 		toggleBlock();
 		for (int i = brick.getBrick().length - 1; i >=0; i--) {
 			brick.swapBlock(brick.getBrick()[i], board[brick.getBrick()[i].getDepth()][brick.getBrick()[i].getWidth() - 1]);
@@ -207,8 +206,8 @@ public class TetrisModel {
 
 	/** Spawns the J shaped block and sets the active block to it */
 	public void spawnJ() {
-		currentBrick = new Brick(turnOnAndReturn(0, width / 2), turnOnAndReturn(0, width / 2 - 1),
-				turnOnAndReturn(1, width / 2 + 1), turnOnAndReturn(0, width / 2 + 1));
+		currentBrick = new Brick(turnOnAndReturn(1, width / 2 + 1), turnOnAndReturn(0, width / 2 + 1),
+				turnOnAndReturn(0, width / 2 - 1), turnOnAndReturn(0, width / 2));
 	}
 
 	/** Spawns the L shaped block and sets the active block to it */
