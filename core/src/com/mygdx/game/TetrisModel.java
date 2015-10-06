@@ -174,8 +174,8 @@ public class TetrisModel {
 
 	/** Spawns the I shaped block and sets the active block to it */
 	public void spawnI() {
-		currentBrick = new Brick(turnOnAndReturn(0, width / 2 - 2), turnOnAndReturn(0, width / 2 + 1),
-				turnOnAndReturn(0, width / 2 - 1), turnOnAndReturn(0, width / 2));
+		currentBrick = new Brick(turnOnAndReturn(0, width / 2 - 1), turnOnAndReturn(0, width / 2 + 1),
+				turnOnAndReturn(0, width / 2 - 2), turnOnAndReturn(0, width / 2));
 	}
 
 	/** Spawns the J shaped block and sets the active block to it */
