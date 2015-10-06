@@ -142,18 +142,22 @@ public class TetrisModel {
 	/** Checks to see if there is in a particular direction */
 	public boolean isItEmpty(char direction) {
 		if (direction == 'd') {
-			return isItEmpty(1, 0, 4, 2, 3);
+			return isItEmpty(1, 0);
 		} else if (direction == 'l') {
-			return isItEmpty(0, -1, 1, 2, 2);
+			return isItEmpty(0, -1);
 		} else if (direction == 'r') {
-			return isItEmpty(0, 1, 1, 2, 2);
+			return isItEmpty(0, 1);
 		} else {
 			return false;
 		}
 	}
-
+	/** Keeps the requirements based on which letter and which orientation 
+	 *I, J, L, O, S, T, Z
+	 *UR or FF, CW or CCW */
+	int[][] extractor = {{4, 3, 3, 2, 3, 3, 3},{1, 2, 2, 2, 2, 2, 2}};
+	
 	/** Returns true if a brick can be moved in that direction */
-	public boolean isItEmpty(int depthOffset, int widthOffset, int clearForI, int clearForO, int clearForRest) {
+	public boolean isItEmpty(int depthOffset, int widthOffset) {
 		try {
 			int clear = 0;
 			for (Block block : currentBrick.getBrick()) {
@@ -161,14 +165,25 @@ public class TetrisModel {
 					clear++;
 				}
 			}
-			// TODO take orentation into account
-			if (currentBrick.getKey() == 'I') {
-				return clear == clearForI;
-			} else if (currentBrick.getKey() == 'O') {
-				return clear == clearForO;
-			} else {
-				return clear == clearForRest;
+			//is it up right and moving down or facing side to side and moving sideways
+			if((depthOffset == 1 && (currentBrick.getOrentation() == Orentation.UPRIGHT || currentBrick.getOrentation() == Orentation.FLIPFLOP)) || (depthOffset == 0 && (currentBrick.getOrentation() == Orentation.CLOCKWISE || currentBrick.getOrentation() == Orentation.COUNTERCLOCKWISE))){
+				if (currentBrick.getKey() == 'I') {
+					return clear == extractor[0][0];
+				} else if (currentBrick.getKey() == 'O') {
+					return clear == extractor[0][3];
+				} else {
+					return clear == extractor[0][1];
+				}
+			}else{
+				if (currentBrick.getKey() == 'I') {
+					return clear == extractor[1][0];
+				} else if (currentBrick.getKey() == 'O') {
+					return clear == extractor[1][3];
+				} else {
+					return clear == extractor[1][1];
+				}
 			}
+				
 		} catch (ArrayIndexOutOfBoundsException e) {
 			return false;
 		}
@@ -262,13 +277,6 @@ public class TetrisModel {
 	/** Toggles block i,j */
 	public void toggle(int i, int j) {
 		board[i][j].toggle();
-	}
-
-	/** Toggles the whole block */
-	private void toggleBrick() {
-		for (Block b : currentBrick.getBrick()) {
-			b.toggle();
-		}
 	}
 
 	public String toString() {

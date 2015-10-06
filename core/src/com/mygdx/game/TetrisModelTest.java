@@ -25,8 +25,8 @@ public class TetrisModelTest {
 		assertEquals(".oooo\n.....\n.....\n.....\n.....\n", t.toString());
 		t.rotate();
 		assertEquals(".o...\n.o...\n.o...\n.o...\n.....\n", t.toString());
-//		t.moveRight();
-//		assertEquals("..o..\n..o..\n..o..\n..o..\n.....\n", t.toString());
+		t.moveRight();
+		assertEquals("..o..\n..o..\n..o..\n..o..\n.....\n", t.toString());
 	}
 	
 	@Test
