@@ -3,10 +3,17 @@ package com.mygdx.game;
 /**Each brick has 4 block coordinates associated with it*/
 public class Brick {
 	
-	Block[] brick;
+	private Block[] brick;
 	
-	public Brick(Block ... blocks){
+	private char key;
+	
+	public char getKey() {
+		return key;
+	}
+
+	public Brick(char key, Block ... blocks){
 		brick = blocks;
+		this.key = key;
 	}
 	
 	public Block[] getBrick(){
@@ -16,9 +23,7 @@ public class Brick {
 	public void swapBlock(Block old, Block current){
 		for(int i = 0; i < brick.length; i++){
 			if(old.equals(brick[i])){
-				//old.toggle();
 				brick[i] = current;
-				//current.toggle();
 			}
 		}
 	}

@@ -14,11 +14,45 @@ public class TetrisModelTest {
 		t = new TetrisModel(5,5);
 	}
 
+	
+	@Test
+	public void stoppingTest(){
+		t = new TetrisModel(6,6,"..............................o.oooo");
+		t.spawnI();
+		t.moveDown();
+		t.moveDown();
+		t.moveDown();
+		t.moveDown();
+		t.moveDown();
+		assertEquals("......\n......\n......\n......\n.oooo.\no.oooo\n", t.toString());
+		t = new TetrisModel(6,6,"........................o....oo.oooo");
+		t.spawnI();
+		t.moveDown();
+		t.moveDown();
+		t.moveDown();
+		t.moveDown();
+		t.checkForCompletion();
+		assertEquals("......\n......\n......\n......\n......\no.oooo\n", t.toString());
+	}
+	
+	@Test
+	public void stoppingLTest(){
+		t = new TetrisModel(6,6,"..............................oo.ooo");
+		t.spawnL();
+		t.moveDown();
+		t.moveDown();
+		t.moveDown();
+		t.moveDown();
+		t.moveDown();
+		t.checkForCompletion();
+		assertEquals("......\n......\n......\n......\n......\n..ooo.\n", t.toString());
+	}
+	
 	@Test
 	public void testToString() {
 		String s = ".....\n.....\n.....\n.....\n.....\n";
 		assertEquals(s, t.toString());
-		t.turnOn(0, 0);
+		t.toggle(0, 0);
 		s = "o....\n.....\n.....\n.....\n.....\n";
 		assertEquals(s, t.toString());
 	}
