@@ -110,35 +110,13 @@ public class TetrisModel {
 
 	/** Moves the brick down */
 	public void moveDown() {
-		if(emptyDown() ){
-		toggleBrick();
-		for (Block block : currentBrick.getBrick()) {
-			currentBrick.swapBlock(block, board[block.getDepth() + 1][block.getWidth()]);
-		}
-		toggleBrick();
-		}
-	}
-
-	private boolean emptyDown() {
-		try{
-		int clear = 0;
-		for (Block block : currentBrick.getBrick()) {
-			if(!board[block.getDepth() + 1][block.getWidth()].isOn()){
-				clear++;
+		if (isItEmpty('d')) {
+			toggleBrick();
+			for (Block block : currentBrick.getBrick()) {
+				currentBrick.swapBlock(block, board[block.getDepth() + 1][block.getWidth()]);
 			}
+			toggleBrick();
 		}
-		//TODO take orentation into account
-		if(currentBrick.getKey() == 'I'){
-			return clear == 4;
-		}else if(currentBrick.getKey() == 'O'){
-			return clear == 2;
-		}else{
-			return clear == 3;
-		}
-		}catch(ArrayIndexOutOfBoundsException e){
-			return false;
-		}
-		
 	}
 
 	/**
@@ -146,23 +124,62 @@ public class TetrisModel {
 	 * move right
 	 */
 	public void moveLeft() {
-		toggleBrick();
-		for (int i = currentBrick.getBrick().length - 1; i >= 0; i--) {
-			currentBrick.swapBlock(currentBrick.getBrick()[i],
-					board[currentBrick.getBrick()[i].getDepth()][currentBrick.getBrick()[i].getWidth() - 1]);
+		if (isItEmpty('l')) {
+			toggleBrick();
+			for (int i = currentBrick.getBrick().length - 1; i >= 0; i--) {
+				currentBrick.swapBlock(currentBrick.getBrick()[i],
+						board[currentBrick.getBrick()[i].getDepth()][currentBrick.getBrick()[i].getWidth() - 1]);
+			}
+			toggleBrick();
 		}
-		toggleBrick();
 	}
 
 	/** Moves the brick right */
 	public void moveRight() {
-		toggleBrick();
-		for (Block block : currentBrick.getBrick()) {
-			// block.toggle();
-			currentBrick.swapBlock(block, board[block.getDepth()][block.getWidth() + 1]);
-			// block.toggle();
+		if (isItEmpty('r')) {
+			toggleBrick();
+			for (Block block : currentBrick.getBrick()) {
+				// block.toggle();
+				currentBrick.swapBlock(block, board[block.getDepth()][block.getWidth() + 1]);
+				// block.toggle();
+			}
+			toggleBrick();
 		}
-		toggleBrick();
+	}
+
+	/** Checks to see if there is in a particular direction */
+	public boolean isItEmpty(char direction) {
+		if (direction == 'd') {
+			return isItEmpty(1, 0, 4, 2, 3);
+		} else if (direction == 'l') {
+			return isItEmpty(0, -1, 1, 2, 2);
+		} else if (direction == 'r') {
+			return isItEmpty(0, 1, 1, 2, 2);
+		} else {
+			return false;
+		}
+	}
+
+	/** Returns true if a brick can be moved in that direction */
+	public boolean isItEmpty(int depthOffset, int widthOffset, int clearForI, int clearForO, int clearForRest) {
+		try {
+			int clear = 0;
+			for (Block block : currentBrick.getBrick()) {
+				if (!board[block.getDepth() + depthOffset][block.getWidth() + widthOffset].isOn()) {
+					clear++;
+				}
+			}
+			// TODO take orentation into account
+			if (currentBrick.getKey() == 'I') {
+				return clear == clearForI;
+			} else if (currentBrick.getKey() == 'O') {
+				return clear == clearForO;
+			} else {
+				return clear == clearForRest;
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+			return false;
+		}
 	}
 
 	/** This sets the row back to null */
@@ -224,38 +241,38 @@ public class TetrisModel {
 
 	/** Spawns the J shaped block and sets the active block to it */
 	public void spawnJ() {
-		currentBrick = new Brick('J',toggleAndReturn(1, width / 2 + 1), toggleAndReturn(0, width / 2 + 1),
+		currentBrick = new Brick('J', toggleAndReturn(1, width / 2 + 1), toggleAndReturn(0, width / 2 + 1),
 				toggleAndReturn(0, width / 2), toggleAndReturn(0, width / 2 - 1));
 	}
 
 	/** Spawns the L shaped block and sets the active block to it */
 	public void spawnL() {
-		currentBrick = new Brick('L',toggleAndReturn(0, width / 2 + 1), toggleAndReturn(0, width / 2),
+		currentBrick = new Brick('L', toggleAndReturn(0, width / 2 + 1), toggleAndReturn(0, width / 2),
 				toggleAndReturn(1, width / 2 - 1), toggleAndReturn(0, width / 2 - 1));
 	}
 
 	/** Spawns the O shaped block and sets the active block to it */
 	public void spawnO() {
 		// TODO make +1 into -1
-		currentBrick = new Brick('O',toggleAndReturn(1, width / 2 + 1), toggleAndReturn(1, width / 2),
+		currentBrick = new Brick('O', toggleAndReturn(1, width / 2 + 1), toggleAndReturn(1, width / 2),
 				toggleAndReturn(0, width / 2 + 1), toggleAndReturn(0, width / 2));
 	}
 
 	/** Spawns the S shaped block and sets the active block to it */
 	public void spawnS() {
-		currentBrick = new Brick('S',toggleAndReturn(1, width / 2), toggleAndReturn(1, width / 2 - 1),
+		currentBrick = new Brick('S', toggleAndReturn(1, width / 2), toggleAndReturn(1, width / 2 - 1),
 				toggleAndReturn(0, width / 2 + 1), toggleAndReturn(0, width / 2));
 	}
 
 	/** Spawns the T shaped block and sets the active block to it */
 	public void spawnT() {
-		currentBrick = new Brick('T',toggleAndReturn(1, width / 2), toggleAndReturn(0, width / 2 + 1),
+		currentBrick = new Brick('T', toggleAndReturn(1, width / 2), toggleAndReturn(0, width / 2 + 1),
 				toggleAndReturn(0, width / 2), toggleAndReturn(0, width / 2 - 1));
 	}
 
 	/** Spawns the Z shaped block and sets the active block to it */
 	public void spawnZ() {
-		currentBrick = new Brick('Z',toggleAndReturn(1, width / 2 + 1), toggleAndReturn(1, width / 2),
+		currentBrick = new Brick('Z', toggleAndReturn(1, width / 2 + 1), toggleAndReturn(1, width / 2),
 				toggleAndReturn(0, width / 2), toggleAndReturn(0, width / 2 - 1));
 	}
 

@@ -16,7 +16,7 @@ public class TetrisModelTest {
 
 	
 	@Test
-	public void stoppingTest(){
+	public void stoppingDownTest(){
 		t = new TetrisModel(6,6,"..............................o.oooo");
 		t.spawnI();
 		t.moveDown();
@@ -36,7 +36,7 @@ public class TetrisModelTest {
 	}
 	
 	@Test
-	public void stoppingLTest(){
+	public void stoppingDownAndCompletingTest(){
 		t = new TetrisModel(6,6,"..............................oo.ooo");
 		t.spawnL();
 		t.moveDown();
@@ -46,6 +46,17 @@ public class TetrisModelTest {
 		t.moveDown();
 		t.checkForCompletion();
 		assertEquals("......\n......\n......\n......\n......\n..ooo.\n", t.toString());
+	}
+	
+	@Test
+	public void stoppingLeftAndRight(){
+		t.spawnI();
+		assertEquals("oooo.\n.....\n.....\n.....\n.....\n", t.toString());
+		t.moveLeft();
+		assertEquals("oooo.\n.....\n.....\n.....\n.....\n", t.toString());
+		t.moveRight();
+		t.moveRight();
+		assertEquals(".oooo\n.....\n.....\n.....\n.....\n", t.toString());
 	}
 	
 	@Test
