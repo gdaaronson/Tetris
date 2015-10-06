@@ -175,11 +175,12 @@ public class TetrisModel {
 	/** This method moves down every brick above the row */
 	private void sinkDown(int row) {
 		for (int i = row - 1; i >= 0; i--) {
+			for(int j = 0; j < board[row].length; j++){
 			//TODO see if this is okay
-			if (board[i] != null) {
-				Block[] temp = board[i];
-				board[i] = board[i + 1];
-				board[i + 1] = temp;
+				if (board[i][j].on) {
+					board[i][j].toggle();
+					board[i+1][j].toggle();
+				}
 			}
 		}
 	}
