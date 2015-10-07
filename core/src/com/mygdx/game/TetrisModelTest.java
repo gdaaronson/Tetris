@@ -62,6 +62,47 @@ public class TetrisModelTest {
 	}
 	
 	@Test
+	public void rotateSTest(){
+		t.spawnS();
+		assertEquals("..oo.\n.oo..\n.....\n.....\n.....\n", t.toString());
+		t.rotate();
+		assertEquals(".o...\n.oo..\n..o..\n.....\n.....\n", t.toString());
+		t.rotate();
+		assertEquals("..oo.\n.oo..\n.....\n.....\n.....\n", t.toString());
+		t.rotate();
+		assertEquals(".o...\n.oo..\n..o..\n.....\n.....\n", t.toString());
+	}
+	
+	@Test
+	public void rotateTTest(){
+		t.spawnT();
+		assertEquals(".ooo.\n..o..\n.....\n.....\n.....\n", t.toString());
+		t.rotate();
+		assertEquals("...o.\n..oo.\n...o.\n.....\n.....\n", t.toString());
+		t.rotate();
+		assertEquals("..o..\n.ooo.\n.....\n.....\n.....\n", t.toString());
+		t.rotate();
+		assertEquals(".o...\n.oo..\n.o...\n.....\n.....\n", t.toString());
+		t.rotate();
+		assertEquals(".ooo.\n..o..\n.....\n.....\n.....\n", t.toString());
+		t.rotate();
+		assertEquals("...o.\n..oo.\n...o.\n.....\n.....\n", t.toString());
+	}
+	
+	@Test
+	public void rotateZTest(){
+		t.spawnZ();
+		assertEquals(".oo..\n..oo.\n.....\n.....\n.....\n", t.toString());
+		t.rotate();
+		assertEquals("..o..\n.oo..\n.o...\n.....\n.....\n", t.toString());
+		t.rotate();
+		assertEquals(".oo..\n..oo.\n.....\n.....\n.....\n", t.toString());
+		t.rotate();
+		assertEquals("..o..\n.oo..\n.o...\n.....\n.....\n", t.toString());
+
+	}
+	
+	@Test
 	public void stoppingDownTest(){
 		t = new TetrisModel(6,6,"..............................o.oooo");
 		t.spawnI();
@@ -124,7 +165,6 @@ public class TetrisModelTest {
 	public void testSpawnJ(){
 		t.insertBrick(1);
 		assertEquals(".ooo.\n...o.\n.....\n.....\n.....\n", t.toString());
-
 	}
 	
 	@Test
@@ -138,14 +178,12 @@ public class TetrisModelTest {
 	public void testSpawnO(){
 		t.insertBrick(3);
 		assertEquals("..oo.\n..oo.\n.....\n.....\n.....\n", t.toString());
-
 	}
 	
 	@Test
 	public void testSpawnS(){
 		t.insertBrick(4);
 		assertEquals("..oo.\n.oo..\n.....\n.....\n.....\n", t.toString());
-
 	}
 	
 	@Test
