@@ -115,6 +115,17 @@ public class TetrisModel {
 		insertBrick((int) (7 * Math.random()));
 	}
 
+	/** Sees if the game is over by making sure that at least one of the blocks are in the current brick*/
+	public boolean endGameDetection() {
+		int counter = 0;
+		for(Block b: currentBrick.getBrick()){
+			if(b.isOn()){
+				counter++;
+			}
+		}
+		return counter < 4;
+	}
+
 	/** Checks to see if there is in a particular direction */
 	public boolean isItEmpty(char direction) {
 		if (direction == 'd') {
@@ -491,12 +502,10 @@ public class TetrisModel {
 	}
 
 	public int getWidth() {
-		// TODO Auto-generated method stub
 		return width;
 	}
 
 	public int getHeight() {
-		// TODO Auto-generated method stub
 		return height;
 	}
 
