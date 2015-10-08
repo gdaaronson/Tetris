@@ -17,55 +17,57 @@ public class GameScreen implements Screen {
 	Rectangle[] brick;
 	Rectangle[][] block;
 	TetrisModel t;
-	int width;
+	int widthp;
+	int heightp;
 	int height;
+	int width;
 
 	public GameScreen(final Tetris game) {
 		this.game = game;
-		t = new TetrisModel(8, 8);
+		height = 8;
+		width = 8;
+		t = new TetrisModel(height, width);
 		t.insertRandomBrick();
-		height = 480;
-		width = 800;
+		heightp = 480;
+		widthp = 800;
 
 		blockImage = new Texture("badlogic.jpg");
 		brickImage = new Texture("badlogic.jpg");
 
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, width, height);
+		camera.setToOrtho(false, widthp, heightp);
 
 		brick = new Rectangle[4];
 		for (int i = 0; i < brick.length; i++) {
 			brick[i] = new Rectangle();
-			brick[i].set(getPixelWidth(i), getPixelHeight(i), width / t.getWidth(), height / t.getHeight());
+			brick[i].set(getPixelWidth(i), getPixelHeight(i), widthp / t.getWidth(), heightp / t.getHeight());
 		}
 		
-		block = new Rectangle[8][8];
+		block = new Rectangle[height][width];
 		for (int i = 0; i < block.length; i++){
 			for (int j = 0; j < block[i].length; j++) {
 				block[i][j] = new Rectangle();
-				block[i][j].set(getPixelWidth(i,j), getPixelHeight(i, j), width / t.getWidth(), height / t.getHeight());
-
+				block[i][j].set(getPixelWidth(i,j), getPixelHeight(i, j), widthp / t.getWidth(), heightp / t.getHeight());
 			}
 		}
 	}
 
 	private float getPixelHeight(int i, int j) {
-		// TODO Auto-generated method stub
-		return height - t.getBoard()[i][j].getDepth() * height / t.getHeight()
-				- height / t.getHeight();
+		return heightp - t.getBoard()[i][j].getDepth() * heightp / t.getHeight()
+				- heightp / t.getHeight();
 	}
 
 	private float getPixelWidth(int i, int j) {
-		return t.getBoard()[i][j].getWidth() * width / t.getWidth();
+		return t.getBoard()[i][j].getWidth() * widthp / t.getWidth();
 	}
 
 	private int getPixelHeight(int block) {
-		return height - t.getCurrentBrick().getBrick()[block].getDepth() * height / t.getHeight()
-				- height / t.getHeight();
+		return heightp - t.getCurrentBrick().getBrick()[block].getDepth() * heightp / t.getHeight()
+				- heightp / t.getHeight();
 	}
 
 	private int getPixelWidth(int block) {
-		return t.getCurrentBrick().getBrick()[block].getWidth() * width / t.getWidth();
+		return t.getCurrentBrick().getBrick()[block].getWidth() * widthp / t.getWidth();
 	}
 
 	@Override
@@ -91,14 +93,14 @@ public class GameScreen implements Screen {
 
 		//Draw the brick
 		for (Rectangle block : brick) {
-			game.batch.draw(brickImage, block.x, block.y, width / t.getWidth(), height / t.getHeight());
+			game.batch.draw(brickImage, block.x, block.y, widthp / t.getWidth(), heightp / t.getHeight());
 		}
 		
 		//Draw the blocks
 		for (int i = 0; i < block.length; i++){
 			for (int j = 0; j < block[i].length; j++) {
 				if(t.getBoard()[i][j].isOn()){
-					game.batch.draw(blockImage, block[i][j].x, block[i][j].y, width / t.getWidth(), height / t.getHeight());
+					game.batch.draw(blockImage, block[i][j].x, block[i][j].y, widthp / t.getWidth(), heightp / t.getHeight());
 				}
 			}
 		}
@@ -108,7 +110,7 @@ public class GameScreen implements Screen {
 			if (t.canMoveDown()) {
 				t.moveDown();
 				for (Rectangle block : brick) {
-					block.y -= height / t.getHeight();
+					block.y -= heightp / t.getHeight();
 				}
 			}
 		}
@@ -116,7 +118,7 @@ public class GameScreen implements Screen {
 			if (t.canMoveLeft()) {
 				t.moveLeft();
 				for (Rectangle block : brick) {
-					block.x -= width / t.getWidth();
+					block.x -= widthp / t.getWidth();
 				}
 			}
 		}
@@ -124,7 +126,7 @@ public class GameScreen implements Screen {
 			if (t.canMoveRight()) {
 				t.moveRight();
 				for (Rectangle block : brick) {
-					block.x += width / t.getWidth();
+					block.x += widthp / t.getWidth();
 				}
 			}
 		}
