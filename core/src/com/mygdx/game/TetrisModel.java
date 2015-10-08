@@ -248,8 +248,16 @@ public class TetrisModel {
 				rotateZ();
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
-
+			System.out.println(e.getMessage());
 		}
+	}
+
+	public boolean stopBrick(){
+		return !canMoveDown();
+	}
+	
+	public Block[][] getBoard() {
+		return board;
 	}
 
 	public void rotateI() {
