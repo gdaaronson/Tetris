@@ -113,13 +113,17 @@ public class TetrisModel {
 	/** Picks a random block to insert */
 	public void insertRandomBrick() {
 		insertBrick((int) (7 * Math.random()));
+		currentBrick.sort();
 	}
 
-	/** Sees if the game is over by making sure that at least one of the blocks are in the current brick*/
+	/**
+	 * Sees if the game is over by making sure that at least one of the blocks
+	 * are in the current brick
+	 */
 	public boolean endGameDetection() {
 		int counter = 0;
-		for(Block b: currentBrick.getBrick()){
-			if(b.isOn()){
+		for (Block b : currentBrick.getBrick()) {
+			if (b.isOn()) {
 				counter++;
 			}
 		}
@@ -178,6 +182,7 @@ public class TetrisModel {
 
 	/** Moves the brick down */
 	public void moveDown() {
+		currentBrick.sort();
 		if (isItEmpty('d')) {
 			for (Block block : currentBrick.getBrick()) {
 				currentBrick.swapBlock(block, board[block.getDepth() + 1][block.getWidth()]);
@@ -202,6 +207,7 @@ public class TetrisModel {
 	 * move right
 	 */
 	public void moveLeft() {
+		currentBrick.sort();
 		if (isItEmpty('l')) {
 			for (int i = currentBrick.getBrick().length - 1; i >= 0; i--) {
 				currentBrick.swapBlock(currentBrick.getBrick()[i],
@@ -212,6 +218,7 @@ public class TetrisModel {
 
 	/** Moves the brick right */
 	public void moveRight() {
+		currentBrick.sort();
 		if (isItEmpty('r')) {
 			for (Block block : currentBrick.getBrick()) {
 				currentBrick.swapBlock(block, board[block.getDepth()][block.getWidth() + 1]);
@@ -243,11 +250,12 @@ public class TetrisModel {
 	/** Rotate clockwise */
 	public void rotate() {
 		try {
+			currentBrick.sort();
 			if (currentBrick.getKey() == 'I') {
 				rotateI();
 			} else if (currentBrick.getKey() == 'J') {
 				rotateJ();
-		 	} else if (currentBrick.getKey() == 'L') {
+			} else if (currentBrick.getKey() == 'L') {
 				rotateL();
 			} else if (currentBrick.getKey() == 'O') {
 
@@ -262,60 +270,55 @@ public class TetrisModel {
 			System.out.println(e.getMessage());
 		}
 	}
-
-	public boolean stopBrick(){
+	
+	/** Returns true if the brick has stopped*/
+	public boolean stopBrick() {
 		return !canMoveDown();
 	}
-	
+
 	public Block[][] getBoard() {
 		return board;
 	}
 
 	public void rotateI() {
 		if (currentBrick.getOrentation() == Orentation.UPRIGHT) {
-			currentBrick.swapBlock(currentBrick.getBrick()[0],
-					board[currentBrick.getBrick()[3].getDepth() + 1][currentBrick.getBrick()[3].getWidth()]);
-			currentBrick.swapBlock(currentBrick.getBrick()[1],
-					board[currentBrick.getBrick()[3].getDepth() + 2][currentBrick.getBrick()[3].getWidth()]);
-			currentBrick.swapBlock(currentBrick.getBrick()[2],
-					board[currentBrick.getBrick()[3].getDepth() + 3][currentBrick.getBrick()[3].getWidth()]);
+			currentBrick.swapBlock(currentBrick.getBrick()[0], board[indexedDepth(3) + 1][indexedWidth(3)]);
+			currentBrick.swapBlock(currentBrick.getBrick()[1], board[indexedDepth(3) + 2][indexedWidth(3)]);
+			currentBrick.swapBlock(currentBrick.getBrick()[2], board[indexedDepth(3) + 3][indexedWidth(3)]);
 			currentBrick.setOrentation(Orentation.CLOCKWISE);
 		} else {
-			currentBrick.swapBlock(currentBrick.getBrick()[0],
-					board[currentBrick.getBrick()[3].getDepth()][currentBrick.getBrick()[3].getWidth() + 3]);
-			currentBrick.swapBlock(currentBrick.getBrick()[1],
-					board[currentBrick.getBrick()[3].getDepth()][currentBrick.getBrick()[3].getWidth() + 2]);
-			currentBrick.swapBlock(currentBrick.getBrick()[2],
-					board[currentBrick.getBrick()[3].getDepth()][currentBrick.getBrick()[3].getWidth() + 1]);
+			currentBrick.swapBlock(currentBrick.getBrick()[0], board[indexedDepth(3)][indexedWidth(3) + 3]);
+			currentBrick.swapBlock(currentBrick.getBrick()[1], board[indexedDepth(3)][indexedWidth(3) + 2]);
+			currentBrick.swapBlock(currentBrick.getBrick()[2], board[indexedDepth(3)][indexedWidth(3) + 1]);
 			currentBrick.setOrentation(Orentation.UPRIGHT);
 		}
 
 	}
 
+	public int indexedDepth(int i) {
+		return currentBrick.getBrick()[i].getDepth();
+	}
+
+	public int indexedWidth(int i) {
+		return currentBrick.getBrick()[i].getWidth();
+	}
+
 	public void rotateJ() {
 		if (currentBrick.getOrentation() == Orentation.UPRIGHT) {
-			currentBrick.swapBlock(currentBrick.getBrick()[2],
-					board[currentBrick.getBrick()[1].getDepth() + 2][currentBrick.getBrick()[1].getWidth()]);
-			currentBrick.swapBlock(currentBrick.getBrick()[3],
-					board[currentBrick.getBrick()[1].getDepth() + 2][currentBrick.getBrick()[1].getWidth() - 1]);
+			currentBrick.swapBlock(currentBrick.getBrick()[2], board[indexedDepth(1) + 2][indexedWidth(1)]);
+			currentBrick.swapBlock(currentBrick.getBrick()[3], board[indexedDepth(1) + 2][indexedWidth(1) - 1]);
 			currentBrick.setOrentation(Orentation.CLOCKWISE);
 		} else if (currentBrick.getOrentation() == Orentation.CLOCKWISE) {
-			currentBrick.swapBlock(currentBrick.getBrick()[1],
-					board[currentBrick.getBrick()[2].getDepth()][currentBrick.getBrick()[2].getWidth() - 2]);
-			currentBrick.swapBlock(currentBrick.getBrick()[0],
-					board[currentBrick.getBrick()[2].getDepth() - 1][currentBrick.getBrick()[2].getWidth() - 2]);
+			currentBrick.swapBlock(currentBrick.getBrick()[2], board[indexedDepth(1)][indexedWidth(1) - 1]);
+			currentBrick.swapBlock(currentBrick.getBrick()[3], board[indexedDepth(1) - 1][indexedWidth(1) - 1]);
 			currentBrick.setOrentation(Orentation.FLIPFLOP);
 		} else if (currentBrick.getOrentation() == Orentation.FLIPFLOP) {
-			currentBrick.swapBlock(currentBrick.getBrick()[2],
-					board[currentBrick.getBrick()[0].getDepth() - 1][currentBrick.getBrick()[0].getWidth() + 1]);
-			currentBrick.swapBlock(currentBrick.getBrick()[3],
-					board[currentBrick.getBrick()[0].getDepth() - 1][currentBrick.getBrick()[0].getWidth()]);
+			currentBrick.swapBlock(currentBrick.getBrick()[0], board[indexedDepth(3) - 1][indexedWidth(3) + 1]);
+			currentBrick.swapBlock(currentBrick.getBrick()[1], board[indexedDepth(3) - 1][indexedWidth(3)]);
 			currentBrick.setOrentation(Orentation.COUNTERCLOCKWISE);
 		} else {
-			currentBrick.swapBlock(currentBrick.getBrick()[0],
-					board[currentBrick.getBrick()[2].getDepth() + 1][currentBrick.getBrick()[2].getWidth() + 1]);
-			currentBrick.swapBlock(currentBrick.getBrick()[1],
-					board[currentBrick.getBrick()[2].getDepth()][currentBrick.getBrick()[2].getWidth() + 1]);
+			currentBrick.swapBlock(currentBrick.getBrick()[0], board[indexedDepth(2) + 1][indexedWidth(2) + 1]);
+			currentBrick.swapBlock(currentBrick.getBrick()[1], board[indexedDepth(2)][indexedWidth(2) + 1]);
 			currentBrick.setOrentation(Orentation.UPRIGHT);
 		}
 
@@ -323,28 +326,20 @@ public class TetrisModel {
 
 	public void rotateL() {
 		if (currentBrick.getOrentation() == Orentation.UPRIGHT) {
-			currentBrick.swapBlock(currentBrick.getBrick()[2],
-					board[currentBrick.getBrick()[0].getDepth() + 1][currentBrick.getBrick()[0].getWidth()]);
-			currentBrick.swapBlock(currentBrick.getBrick()[3],
-					board[currentBrick.getBrick()[0].getDepth() + 2][currentBrick.getBrick()[0].getWidth()]);
+			currentBrick.swapBlock(currentBrick.getBrick()[0], board[indexedDepth(1) + 1][indexedWidth(1)]);
+			currentBrick.swapBlock(currentBrick.getBrick()[3], board[indexedDepth(1) + 2][indexedWidth(1)]);
 			currentBrick.setOrentation(Orentation.CLOCKWISE);
 		} else if (currentBrick.getOrentation() == Orentation.CLOCKWISE) {
-			currentBrick.swapBlock(currentBrick.getBrick()[0],
-					board[currentBrick.getBrick()[2].getDepth() + 1][currentBrick.getBrick()[2].getWidth() - 2]);
-			currentBrick.swapBlock(currentBrick.getBrick()[1],
-					board[currentBrick.getBrick()[2].getDepth() + 1][currentBrick.getBrick()[2].getWidth() - 1]);
+			currentBrick.swapBlock(currentBrick.getBrick()[2], board[indexedDepth(0)][indexedWidth(0) - 2]);
+			currentBrick.swapBlock(currentBrick.getBrick()[3], board[indexedDepth(0)][indexedWidth(0) - 1]);
 			currentBrick.setOrentation(Orentation.FLIPFLOP);
 		} else if (currentBrick.getOrentation() == Orentation.FLIPFLOP) {
-			currentBrick.swapBlock(currentBrick.getBrick()[2],
-					board[currentBrick.getBrick()[0].getDepth() - 1][currentBrick.getBrick()[0].getWidth()]);
-			currentBrick.swapBlock(currentBrick.getBrick()[3],
-					board[currentBrick.getBrick()[0].getDepth() - 2][currentBrick.getBrick()[0].getWidth()]);
+			currentBrick.swapBlock(currentBrick.getBrick()[0], board[indexedDepth(2) - 1][indexedWidth(2)]);
+			currentBrick.swapBlock(currentBrick.getBrick()[3], board[indexedDepth(2) - 2][indexedWidth(2)]);
 			currentBrick.setOrentation(Orentation.COUNTERCLOCKWISE);
 		} else {
-			currentBrick.swapBlock(currentBrick.getBrick()[0],
-					board[currentBrick.getBrick()[2].getDepth() - 1][currentBrick.getBrick()[2].getWidth() + 2]);
-			currentBrick.swapBlock(currentBrick.getBrick()[1],
-					board[currentBrick.getBrick()[2].getDepth() - 1][currentBrick.getBrick()[2].getWidth() + 1]);
+			currentBrick.swapBlock(currentBrick.getBrick()[0], board[indexedDepth(2) - 1][indexedWidth(2) + 2]);
+			currentBrick.swapBlock(currentBrick.getBrick()[1], board[indexedDepth(2) - 1][indexedWidth(2) + 1]);
 			currentBrick.setOrentation(Orentation.UPRIGHT);
 		}
 
@@ -352,44 +347,32 @@ public class TetrisModel {
 
 	public void rotateS() {
 		if (currentBrick.getOrentation() == Orentation.UPRIGHT) {
-			currentBrick.swapBlock(currentBrick.getBrick()[2],
-					board[currentBrick.getBrick()[1].getDepth() - 1][currentBrick.getBrick()[1].getWidth()]);
-			currentBrick.swapBlock(currentBrick.getBrick()[3],
-					board[currentBrick.getBrick()[1].getDepth() + 1][currentBrick.getBrick()[1].getWidth() + 1]);
+			currentBrick.swapBlock(currentBrick.getBrick()[2], board[indexedDepth(1) - 1][indexedWidth(1)]);
+			currentBrick.swapBlock(currentBrick.getBrick()[3], board[indexedDepth(1) + 1][indexedWidth(1) + 1]);
 			currentBrick.setOrentation(Orentation.CLOCKWISE);
 		} else {
-			currentBrick.swapBlock(currentBrick.getBrick()[2],
-					board[currentBrick.getBrick()[1].getDepth() - 1][currentBrick.getBrick()[1].getWidth() + 2]);
-			currentBrick.swapBlock(currentBrick.getBrick()[3],
-					board[currentBrick.getBrick()[1].getDepth() - 1][currentBrick.getBrick()[1].getWidth() + 1]);
+			currentBrick.swapBlock(currentBrick.getBrick()[0], board[indexedDepth(1) - 1][indexedWidth(1)]);
+			currentBrick.swapBlock(currentBrick.getBrick()[3], board[indexedDepth(1) - 1][indexedWidth(1) + 1]);
 			currentBrick.setOrentation(Orentation.UPRIGHT);
 		}
 	}
 
 	public void rotateT() {
 		if (currentBrick.getOrentation() == Orentation.UPRIGHT) {
-			currentBrick.swapBlock(currentBrick.getBrick()[3],
-					board[currentBrick.getBrick()[0].getDepth() + 1][currentBrick.getBrick()[0].getWidth() + 1]);
-			currentBrick.swapBlock(currentBrick.getBrick()[2],
-					board[currentBrick.getBrick()[0].getDepth()][currentBrick.getBrick()[0].getWidth() + 1]);
+			currentBrick.swapBlock(currentBrick.getBrick()[3], board[indexedDepth(0) + 1][indexedWidth(0) + 1]);
+			currentBrick.swapBlock(currentBrick.getBrick()[2], board[indexedDepth(0)][indexedWidth(0) + 1]);
 			currentBrick.setOrentation(Orentation.CLOCKWISE);
 		} else if (currentBrick.getOrentation() == Orentation.CLOCKWISE) {
-			currentBrick.swapBlock(currentBrick.getBrick()[1],
-					board[currentBrick.getBrick()[0].getDepth() - 1][currentBrick.getBrick()[0].getWidth()]);
-			currentBrick.swapBlock(currentBrick.getBrick()[3],
-					board[currentBrick.getBrick()[0].getDepth()][currentBrick.getBrick()[0].getWidth() - 1]);
+			currentBrick.swapBlock(currentBrick.getBrick()[0], board[indexedDepth(2) - 1][indexedWidth(2)]);
+			currentBrick.swapBlock(currentBrick.getBrick()[3], board[indexedDepth(2)][indexedWidth(2) - 1]);
 			currentBrick.setOrentation(Orentation.FLIPFLOP);
 		} else if (currentBrick.getOrentation() == Orentation.FLIPFLOP) {
-			currentBrick.swapBlock(currentBrick.getBrick()[2],
-					board[currentBrick.getBrick()[0].getDepth() - 1][currentBrick.getBrick()[0].getWidth() - 1]);
-			currentBrick.swapBlock(currentBrick.getBrick()[1],
-					board[currentBrick.getBrick()[0].getDepth() + 1][currentBrick.getBrick()[0].getWidth() - 1]);
+			currentBrick.swapBlock(currentBrick.getBrick()[0], board[indexedDepth(1) - 1][indexedWidth(1) - 1]);
+			currentBrick.swapBlock(currentBrick.getBrick()[3], board[indexedDepth(1) + 1][indexedWidth(1) - 1]);
 			currentBrick.setOrentation(Orentation.COUNTERCLOCKWISE);
 		} else {
-			currentBrick.swapBlock(currentBrick.getBrick()[3],
-					board[currentBrick.getBrick()[0].getDepth() - 1][currentBrick.getBrick()[0].getWidth()]);
-			currentBrick.swapBlock(currentBrick.getBrick()[1],
-					board[currentBrick.getBrick()[0].getDepth() - 1][currentBrick.getBrick()[0].getWidth() + 1]);
+			currentBrick.swapBlock(currentBrick.getBrick()[0], board[indexedDepth(1) - 1][indexedWidth(1)]);
+			currentBrick.swapBlock(currentBrick.getBrick()[2], board[indexedDepth(1) - 1][indexedWidth(1) + 1]);
 			currentBrick.setOrentation(Orentation.UPRIGHT);
 		}
 
@@ -397,16 +380,14 @@ public class TetrisModel {
 
 	public void rotateZ() {
 		if (currentBrick.getOrentation() == Orentation.UPRIGHT) {
-			currentBrick.swapBlock(currentBrick.getBrick()[0],
-					board[currentBrick.getBrick()[1].getDepth()][currentBrick.getBrick()[1].getWidth() - 1]);
-			currentBrick.swapBlock(currentBrick.getBrick()[3],
-					board[currentBrick.getBrick()[1].getDepth() + 1][currentBrick.getBrick()[1].getWidth() - 1]);
+			currentBrick.swapBlock(currentBrick.getBrick()[0], board[indexedDepth(1)][indexedWidth(1) - 1]);
+			currentBrick.swapBlock(currentBrick.getBrick()[3], board[indexedDepth(1) + 1][indexedWidth(1) - 1]);
 			currentBrick.setOrentation(Orentation.CLOCKWISE);
 		} else {
-			currentBrick.swapBlock(currentBrick.getBrick()[0],
-					board[currentBrick.getBrick()[1].getDepth() - 1][currentBrick.getBrick()[1].getWidth() - 1]);
-			currentBrick.swapBlock(currentBrick.getBrick()[3],
-					board[currentBrick.getBrick()[1].getDepth()][currentBrick.getBrick()[1].getWidth() + 1]);
+			print();
+			System.out.println(currentBrick);
+			currentBrick.swapBlock(currentBrick.getBrick()[0], board[indexedDepth(1) - 1][indexedWidth(1) - 1]);
+			currentBrick.swapBlock(currentBrick.getBrick()[2], board[indexedDepth(1)][indexedWidth(1) + 1]);
 			currentBrick.setOrentation(Orentation.UPRIGHT);
 		}
 	}
