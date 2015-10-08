@@ -142,7 +142,7 @@ public class GameScreen implements Screen {
 		if(t.stopBrick()){
 			t.insertRandomBrick();
 		}
-		if(t.endGameDetection()){
+		if(t.endGameDetection() && t.checkForCompletion() == 0){
 			dispose();
 		}
 		System.out.println(t);
