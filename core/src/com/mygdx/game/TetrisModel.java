@@ -12,8 +12,7 @@ public class TetrisModel {
 
 	/**
 	 * Keeps the requirements based on which letter and which orientation I, J,
-	 * L, O, S, T, Z 
-	 * UR or FF, CW or CCW
+	 * L, O, S, T, Z UR or FF, CW or CCW
 	 */
 	private int[][] extractor = { { 4, 3, 3, 2, 3, 3, 3 }, { 1, 2, 2, 2, 2, 2, 2 } };
 
@@ -88,14 +87,8 @@ public class TetrisModel {
 	}
 
 	/**
-	 * Inserts a brick based on an index: 
-	 * 0 = I block 
-	 * 1 = J block 
-	 * 2 = L block 
-	 * 3 = O block 
-	 * 4 = S block 
-	 * 5 = T block 
-	 * 6 = Z block
+	 * Inserts a brick based on an index: 0 = I block 1 = J block 2 = L block 3
+	 * = O block 4 = S block 5 = T block 6 = Z block
 	 **/
 	public void insertBrick(int index) {
 		assert(index >= 0);
@@ -181,6 +174,18 @@ public class TetrisModel {
 		}
 	}
 
+	public boolean canMoveDown() {
+		return isItEmpty('d');
+	}
+
+	public boolean canMoveLeft() {
+		return isItEmpty('l');
+	}
+
+	public boolean canMoveRight() {
+		return isItEmpty('r');
+	}
+
 	/**
 	 * Moves the brick left, for some reason it must be down the oppsite way of
 	 * move right
@@ -226,20 +231,24 @@ public class TetrisModel {
 
 	/** Rotate clockwise */
 	public void rotate() {
-		if (currentBrick.getKey() == 'I') {
-			rotateI();
-		} else if (currentBrick.getKey() == 'J') {
-			rotateJ();
-		} else if (currentBrick.getKey() == 'L') {
-			rotateL();
-		} else if (currentBrick.getKey() == 'O') {
+		try {
+			if (currentBrick.getKey() == 'I') {
+				rotateI();
+			} else if (currentBrick.getKey() == 'J') {
+				rotateJ();
+		 	} else if (currentBrick.getKey() == 'L') {
+				rotateL();
+			} else if (currentBrick.getKey() == 'O') {
 
-		} else if (currentBrick.getKey() == 'S') {
-			rotateS();
-		} else if (currentBrick.getKey() == 'T') {
-			rotateT();
-		} else if (currentBrick.getKey() == 'Z') {
-			rotateZ();
+			} else if (currentBrick.getKey() == 'S') {
+				rotateS();
+			} else if (currentBrick.getKey() == 'T') {
+				rotateT();
+			} else if (currentBrick.getKey() == 'Z') {
+				rotateZ();
+			}
+		} catch (ArrayIndexOutOfBoundsException e) {
+
 		}
 	}
 
@@ -471,6 +480,16 @@ public class TetrisModel {
 			s += "\n";
 		}
 		return s;
+	}
+
+	public int getWidth() {
+		// TODO Auto-generated method stub
+		return width;
+	}
+
+	public int getHeight() {
+		// TODO Auto-generated method stub
+		return height;
 	}
 
 }
