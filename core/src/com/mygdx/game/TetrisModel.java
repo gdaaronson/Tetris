@@ -57,6 +57,18 @@ public class TetrisModel {
 		}
 	}
 
+	public boolean canMoveDown() {
+		return isItEmpty('d');
+	}
+
+	public boolean canMoveLeft() {
+		return isItEmpty('l');
+	}
+
+	public boolean canMoveRight() {
+		return isItEmpty('r');
+	}
+
 	/** Returns the number of completed rows */
 	public int checkForCompletion() {
 		int completed = 0;
@@ -81,9 +93,43 @@ public class TetrisModel {
 		return counter == width;
 	}
 
+	/**
+	 * Sees if the game is over by making sure that at least one of the blocks
+	 * are in the current brick
+	 */
+	public boolean endGameDetection() {
+		int counter = 0;
+		for (Block b : currentBrick.getBrick()) {
+			if (b.isOn()) {
+				counter++;
+			}
+		}
+		return counter < 4;
+	}
+
+	public Block[][] getBoard() {
+		return board;
+	}
+
 	/** Returns the current brick */
 	public Brick getCurrentBrick() {
 		return currentBrick;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public int getWidth() {
+		return width;
+	}
+
+	public int indexedDepth(int i) {
+		return currentBrick.getBrick()[i].getDepth();
+	}
+
+	public int indexedWidth(int i) {
+		return currentBrick.getBrick()[i].getWidth();
 	}
 
 	/**
@@ -114,20 +160,6 @@ public class TetrisModel {
 	public void insertRandomBrick() {
 		insertBrick((int) (7 * Math.random()));
 		currentBrick.sort();
-	}
-
-	/**
-	 * Sees if the game is over by making sure that at least one of the blocks
-	 * are in the current brick
-	 */
-	public boolean endGameDetection() {
-		int counter = 0;
-		for (Block b : currentBrick.getBrick()) {
-			if (b.isOn()) {
-				counter++;
-			}
-		}
-		return counter < 4;
 	}
 
 	/** Checks to see if there is in a particular direction */
@@ -188,18 +220,6 @@ public class TetrisModel {
 				currentBrick.swapBlock(block, board[block.getDepth() + 1][block.getWidth()]);
 			}
 		}
-	}
-
-	public boolean canMoveDown() {
-		return isItEmpty('d');
-	}
-
-	public boolean canMoveLeft() {
-		return isItEmpty('l');
-	}
-
-	public boolean canMoveRight() {
-		return isItEmpty('r');
 	}
 
 	/**
@@ -270,15 +290,6 @@ public class TetrisModel {
 			System.out.println(e.getMessage());
 		}
 	}
-	
-	/** Returns true if the brick has stopped*/
-	public boolean stopBrick() {
-		return !canMoveDown();
-	}
-
-	public Block[][] getBoard() {
-		return board;
-	}
 
 	public void rotateI() {
 		if (currentBrick.getOrentation() == Orentation.UPRIGHT) {
@@ -293,14 +304,6 @@ public class TetrisModel {
 			currentBrick.setOrentation(Orentation.UPRIGHT);
 		}
 
-	}
-
-	public int indexedDepth(int i) {
-		return currentBrick.getBrick()[i].getDepth();
-	}
-
-	public int indexedWidth(int i) {
-		return currentBrick.getBrick()[i].getWidth();
 	}
 
 	public void rotateJ() {
@@ -456,6 +459,11 @@ public class TetrisModel {
 				toggleAndReturn(0, width / 2), toggleAndReturn(0, width / 2 - 1));
 	}
 
+	/** Returns true if the brick has stopped */
+	public boolean stopBrick() {
+		return !canMoveDown();
+	}
+
 	/** Toggles block i,j */
 	public void toggle(int i, int j) {
 		board[i][j].toggle();
@@ -480,14 +488,6 @@ public class TetrisModel {
 			s += "\n";
 		}
 		return s;
-	}
-
-	public int getWidth() {
-		return width;
-	}
-
-	public int getHeight() {
-		return height;
 	}
 
 }
