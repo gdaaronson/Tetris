@@ -21,11 +21,15 @@ public class GameScreen implements Screen {
 	int heightp;
 	int height;
 	int width;
+	int time = 0;
+	int levelTime = 60;
+	private boolean wantToMoveLeft;
+	private boolean wantToMoveRight;
 
 	public GameScreen(final Tetris game) {
 		this.game = game;
-		height = 8;
-		width = 8;
+		height = 14;
+		width = 9;
 		t = new TetrisModel(height, width);
 		t.insertRandomBrick();
 		heightp = 480;
@@ -87,8 +91,7 @@ public class GameScreen implements Screen {
 		// coordinate system specified by the camera.
 		game.batch.setProjectionMatrix(camera.combined);
 
-		// begin a new batch and draw the bucket and
-		// all drops
+		// begin a new batch and draw the blocks
 		game.batch.begin();
 		
 		//Draw the blocks
@@ -107,12 +110,26 @@ public class GameScreen implements Screen {
 		game.batch.end();
 		
 		//Detect move down
-		if (Gdx.input.isKeyJustPressed(Keys.S)) {
+		if (Gdx.input.isKeyPressed(Keys.S) || time % levelTime == levelTime - 1) {
 			if (t.canMoveDown()) {
 				t.moveDown();
 				for (Rectangle block : brick) {
 					block.y -= heightp / t.getHeight();
 				}
+			}
+			if(wantToMoveLeft && t.canMoveLeft()){
+				t.moveLeft();
+				for (Rectangle block : brick) {
+					block.x -= widthp / t.getWidth();
+				}
+				wantToMoveLeft = false;
+			}
+			if(wantToMoveRight && t.canMoveRight()){
+				t.moveRight();
+				for (Rectangle block : brick) {
+					block.x += widthp / t.getWidth();
+				}
+				wantToMoveRight = false;
 			}
 		}
 		
@@ -123,6 +140,8 @@ public class GameScreen implements Screen {
 				for (Rectangle block : brick) {
 					block.x -= widthp / t.getWidth();
 				}
+			} else {
+				wantToMoveLeft = true;
 			}
 		}
 		
@@ -133,6 +152,8 @@ public class GameScreen implements Screen {
 				for (Rectangle block : brick) {
 					block.x += widthp / t.getWidth();
 				}
+			} else {
+				wantToMoveRight = true;
 			}
 		}
 		
@@ -149,7 +170,7 @@ public class GameScreen implements Screen {
 		t.checkForCompletion();
 		
 		//If the brick has stopped, make a new brick
-		if(t.stopBrick()){
+		if(t.stopBrick() && time % levelTime == levelTime - 1){
 			t.insertRandomBrick();
 		}
 		
@@ -158,7 +179,9 @@ public class GameScreen implements Screen {
 		if(t.endGameDetection() && t.checkForCompletion() == 0){
 			dispose();
 		}
+		System.out.println(time);
 		System.out.println(t);
+		time++;
 	}
 
 	@Override
