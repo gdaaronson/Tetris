@@ -32,7 +32,7 @@ public class GameScreen implements Screen {
 		widthp = 800;
 
 		blockImage = new Texture("badlogic.jpg");
-		brickImage = new Texture("badlogic.jpg");
+		brickImage = new Texture("bhb23jpg.bmp");
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, widthp, heightp);
@@ -77,7 +77,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-		Gdx.gl.glClearColor(1, 0, 0.2f, 1);
+		Gdx.gl.glClearColor(0, 0, 0.2f, 1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		// tell the camera to update its matrices.
@@ -90,22 +90,23 @@ public class GameScreen implements Screen {
 		// begin a new batch and draw the bucket and
 		// all drops
 		game.batch.begin();
-
-		//Draw the brick
-		for (Rectangle block : brick) {
-			game.batch.draw(brickImage, block.x, block.y, widthp / t.getWidth(), heightp / t.getHeight());
-		}
 		
 		//Draw the blocks
 		for (int i = 0; i < block.length; i++){
 			for (int j = 0; j < block[i].length; j++) {
+				//Draw a block
 				if(t.getBoard()[i][j].isOn()){
 					game.batch.draw(blockImage, block[i][j].x, block[i][j].y, widthp / t.getWidth(), heightp / t.getHeight());
+				}
+				//Draw a brick
+				if(t.partOfBrick(t.getBoard()[i][j])){
+					game.batch.draw(brickImage, block[i][j].x, block[i][j].y, widthp / t.getWidth(), heightp / t.getHeight());
 				}
 			}
 		}
 		game.batch.end();
-
+		
+		//Detect move down
 		if (Gdx.input.isKeyJustPressed(Keys.S)) {
 			if (t.canMoveDown()) {
 				t.moveDown();
@@ -114,6 +115,8 @@ public class GameScreen implements Screen {
 				}
 			}
 		}
+		
+		//Detect move left
 		if (Gdx.input.isKeyJustPressed(Keys.A)) {
 			if (t.canMoveLeft()) {
 				t.moveLeft();
@@ -122,6 +125,8 @@ public class GameScreen implements Screen {
 				}
 			}
 		}
+		
+		//Detect move right
 		if (Gdx.input.isKeyJustPressed(Keys.D)) {
 			if (t.canMoveRight()) {
 				t.moveRight();
@@ -130,7 +135,8 @@ public class GameScreen implements Screen {
 				}
 			}
 		}
-
+		
+		//Detect rotate
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
 			t.rotate();
 			for (int i = 0; i < brick.length; i++) {
@@ -138,10 +144,17 @@ public class GameScreen implements Screen {
 				brick[i].y = getPixelHeight(i);
 			}
 		}
+		
+		//See if any rows are complete
 		t.checkForCompletion();
+		
+		//If the brick has stopped, make a new brick
 		if(t.stopBrick()){
 			t.insertRandomBrick();
 		}
+		
+		//Check to see if the game is over
+		//TODO make sure this works
 		if(t.endGameDetection() && t.checkForCompletion() == 0){
 			dispose();
 		}
