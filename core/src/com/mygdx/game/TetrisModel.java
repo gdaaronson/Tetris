@@ -86,11 +86,22 @@ public class TetrisModel {
 	public boolean checkForCompletion(int row) {
 		int counter = 0;
 		for (int i = 0; i < width; i++) {
-			if (board[row][i].isOn()) {
+			if (board[row][i].isOn() && stopBrick()) {
 				counter++;
 			}
 		}
 		return counter == width;
+	}
+
+	public boolean partOfBrick(Block block) {
+		if (currentBrick != null) {
+			for (Block b : currentBrick.getBrick()) {
+				if (b.equals(block)) {
+					return true;
+				}
+			}
+		}
+		return false;
 	}
 
 	/**
@@ -104,7 +115,13 @@ public class TetrisModel {
 				counter++;
 			}
 		}
-		return counter < 4;
+		boolean topRowOccupied = false;
+		for (int i = 0; i < board[0].length; i++) {
+			if (board[0][i].isOn() && partOfBrick(board[0][i])) {
+				topRowOccupied = true;
+			}
+		}
+		return counter < 4 && topRowOccupied;
 	}
 
 	public Block[][] getBoard() {
@@ -208,6 +225,8 @@ public class TetrisModel {
 			}
 
 		} catch (ArrayIndexOutOfBoundsException e) {
+			return false;
+		} catch (NullPointerException e){
 			return false;
 		}
 	}

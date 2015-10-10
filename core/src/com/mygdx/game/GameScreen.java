@@ -174,7 +174,6 @@ public class GameScreen implements Screen {
 	@Override
 	public void dispose() {
 		game.setScreen(new EndGameScreen(game));
-
 	}
 
 }
