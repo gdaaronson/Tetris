@@ -93,6 +93,7 @@ public class TetrisModel {
 		return counter == width;
 	}
 
+	/** Checks to see if the given block is part of the brick */
 	public boolean partOfBrick(Block block) {
 		if (currentBrick != null) {
 			for (Block b : currentBrick.getBrick()) {
@@ -226,7 +227,7 @@ public class TetrisModel {
 
 		} catch (ArrayIndexOutOfBoundsException e) {
 			return false;
-		} catch (NullPointerException e){
+		} catch (NullPointerException e) {
 			return false;
 		}
 	}
@@ -290,24 +291,35 @@ public class TetrisModel {
 	public void rotate() {
 		try {
 			currentBrick.sort();
-			if (currentBrick.getKey() == 'I') {
-				rotateI();
-			} else if (currentBrick.getKey() == 'J') {
-				rotateJ();
-			} else if (currentBrick.getKey() == 'L') {
-				rotateL();
-			} else if (currentBrick.getKey() == 'O') {
+			if (notOnEdge()) {
+				if (currentBrick.getKey() == 'I') {
+					rotateI();
+				} else if (currentBrick.getKey() == 'J') {
+					rotateJ();
+				} else if (currentBrick.getKey() == 'L') {
+					rotateL();
+				} else if (currentBrick.getKey() == 'O') {
 
-			} else if (currentBrick.getKey() == 'S') {
-				rotateS();
-			} else if (currentBrick.getKey() == 'T') {
-				rotateT();
-			} else if (currentBrick.getKey() == 'Z') {
-				rotateZ();
+				} else if (currentBrick.getKey() == 'S') {
+					rotateS();
+				} else if (currentBrick.getKey() == 'T') {
+					rotateT();
+				} else if (currentBrick.getKey() == 'Z') {
+					rotateZ();
+				}
 			}
 		} catch (ArrayIndexOutOfBoundsException e) {
 			System.out.println(e.getMessage());
 		}
+	}
+
+	public boolean notOnEdge() {
+		for (Block b : currentBrick.getBrick()) {
+			if (b.getWidth() == width - 1 || b.getWidth() == 0) {
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public void rotateI() {
