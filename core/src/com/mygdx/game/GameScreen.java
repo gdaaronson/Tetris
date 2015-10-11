@@ -25,21 +25,26 @@ public class GameScreen implements Screen {
 	int levelTime = 60;
 	private boolean wantToMoveLeft;
 	private boolean wantToMoveRight;
+	private int level;
+	private int score;
+	private int linesClear;
 
 	public GameScreen(final Tetris game) {
 		this.game = game;
-		height = 14;
-		width = 9;
+		height = 20;
+		width = 10;
 		t = new TetrisModel(height, width);
 		t.insertRandomBrick();
 		heightp = 480;
-		widthp = 800;
-
+		widthp = 600;
+		level = 0;
+		score = 0;
+		linesClear = 0;
 		blockImage = new Texture("badlogic.jpg");
 		brickImage = new Texture("bhb23jpg.bmp");
 
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, widthp, heightp);
+		camera.setToOrtho(false, widthp + 200, heightp);
 
 		brick = new Rectangle[4];
 		for (int i = 0; i < brick.length; i++) {
@@ -94,6 +99,9 @@ public class GameScreen implements Screen {
 		// begin a new batch and draw the blocks
 		game.batch.begin();
 		
+		game.font.draw(game.batch, "Level:" + level, widthp + 100, heightp - 100);
+		game.font.draw(game.batch, "Score:" + score, widthp + 100, heightp - 200);
+		game.font.draw(game.batch, "Lines cleared:" + linesClear, widthp + 100, heightp - 300);
 		//Draw the blocks
 		for (int i = 0; i < block.length; i++){
 			for (int j = 0; j < block[i].length; j++) {
@@ -166,8 +174,26 @@ public class GameScreen implements Screen {
 			}
 		}
 		
-		//See if any rows are complete
-		t.checkForCompletion();
+		//See if any rows are complete and scores them
+		int rowClear = t.checkForCompletion();
+		if(rowClear == 1){
+			score += 40 * (level + 1);
+			linesClear++;
+		}else if(rowClear == 2){
+			score += 100 * (level + 1);
+			linesClear += 2;
+		}else if(rowClear == 3){
+			score +=  300 * (level + 1);
+			linesClear += 3;
+		}else if(rowClear == 4){
+			score +=  1200 * (level + 1);
+			linesClear += 4;
+		}
+		
+		if(level*10 + 10 < linesClear || linesClear > 100){
+			level++;
+			linesClear = 0;
+		}
 		
 		//If the brick has stopped, make a new brick
 		if(t.stopBrick() && time % levelTime == levelTime - 1){
