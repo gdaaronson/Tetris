@@ -14,6 +14,7 @@ public class GameScreen implements Screen {
 	final Tetris game;
 	Texture blockImage;
 	Texture brickImage;
+	Texture white;
 	OrthographicCamera camera;
 	Rectangle[] brick;
 	Rectangle[][] block;
@@ -30,6 +31,8 @@ public class GameScreen implements Screen {
 	private int score;
 	private int linesClear;
 	private Music tetrisMusic;
+	final private int[] levelSpeed = { 48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2,
+			2, 2, 2, 2, 2, 1 };
 
 	public GameScreen(final Tetris game) {
 		this.game = game;
@@ -38,37 +41,38 @@ public class GameScreen implements Screen {
 		t = new TetrisModel(height, width);
 		t.insertRandomBrick();
 		heightp = 480;
-		widthp = 600;
+		widthp = 720;
 		level = 0;
 		score = 0;
 		linesClear = 0;
 		blockImage = new Texture(Gdx.files.internal("badlogic.jpg"));
 		brickImage = new Texture(Gdx.files.internal("bhb23jpg.bmp"));
-	
+		white = new Texture(Gdx.files.internal("Blank White.png"));
+
 		tetrisMusic = Gdx.audio.newMusic(Gdx.files.internal("Tetris A.mp3"));
 		tetrisMusic.setLooping(true);
 
 		camera = new OrthographicCamera();
-		camera.setToOrtho(false, widthp + 200, heightp);
+		camera.setToOrtho(false, widthp + 80, heightp);
 
 		brick = new Rectangle[4];
 		for (int i = 0; i < brick.length; i++) {
 			brick[i] = new Rectangle();
 			brick[i].set(getPixelWidth(i), getPixelHeight(i), widthp / t.getWidth(), heightp / t.getHeight());
 		}
-		
+
 		block = new Rectangle[height][width];
-		for (int i = 0; i < block.length; i++){
+		for (int i = 0; i < block.length; i++) {
 			for (int j = 0; j < block[i].length; j++) {
 				block[i][j] = new Rectangle();
-				block[i][j].set(getPixelWidth(i,j), getPixelHeight(i, j), widthp / t.getWidth(), heightp / t.getHeight());
+				block[i][j].set(getPixelWidth(i, j), getPixelHeight(i, j), widthp / t.getWidth(),
+						heightp / t.getHeight());
 			}
 		}
 	}
 
 	private float getPixelHeight(int i, int j) {
-		return heightp - t.getBoard()[i][j].getDepth() * heightp / t.getHeight()
-				- heightp / t.getHeight();
+		return heightp - t.getBoard()[i][j].getDepth() * heightp / t.getHeight() - heightp / t.getHeight();
 	}
 
 	private float getPixelWidth(int i, int j) {
@@ -103,26 +107,37 @@ public class GameScreen implements Screen {
 
 		// begin a new batch and draw the blocks
 		game.batch.begin();
-		
-		game.font.draw(game.batch, "Level:" + level, widthp + 100, heightp - 100);
-		game.font.draw(game.batch, "Score:" + score, widthp + 100, heightp - 200);
-		game.font.draw(game.batch, "Lines cleared:" + linesClear, widthp + 100, heightp - 300);
-		//Draw the blocks
-		for (int i = 0; i < block.length; i++){
+
+		// TODO make this line work
+		game.batch.draw(white, 0, widthp, 200, heightp);
+
+		game.font.draw(game.batch, "Next: " + t.getNextBrick(), widthp, heightp - 50);
+		game.font.draw(game.batch, "Level:", widthp, heightp - 100);
+		game.font.draw(game.batch, "" + level, widthp, heightp - 150);
+		game.font.draw(game.batch, "Score:", widthp, heightp - 200);
+		game.font.draw(game.batch, "" + score, widthp, heightp - 250);
+		game.font.draw(game.batch, "Lines:", widthp, heightp - 300);
+		game.font.draw(game.batch, "cleared:", widthp, heightp - 325);
+		game.font.draw(game.batch, "" + linesClear, widthp, heightp - 350);
+
+		// Draw the blocks
+		for (int i = 0; i < block.length; i++) {
 			for (int j = 0; j < block[i].length; j++) {
-				//Draw a block
-				if(t.getBoard()[i][j].isOn()){
-					game.batch.draw(blockImage, block[i][j].x, block[i][j].y, widthp / t.getWidth(), heightp / t.getHeight());
+				// Draw a block
+				if (t.getBoard()[i][j].isOn()) {
+					game.batch.draw(blockImage, block[i][j].x, block[i][j].y, widthp / t.getWidth(),
+							heightp / t.getHeight());
 				}
-				//Draw a brick
-				if(t.partOfBrick(t.getBoard()[i][j])){
-					game.batch.draw(brickImage, block[i][j].x, block[i][j].y, widthp / t.getWidth(), heightp / t.getHeight());
+				// Draw a brick
+				if (t.partOfBrick(t.getBoard()[i][j])) {
+					game.batch.draw(brickImage, block[i][j].x, block[i][j].y, widthp / t.getWidth(),
+							heightp / t.getHeight());
 				}
 			}
 		}
 		game.batch.end();
-		
-		//Detect move down
+
+		// Detect move down
 		if (Gdx.input.isKeyPressed(Keys.S) || time % levelTime == levelTime - 1) {
 			if (t.canMoveDown()) {
 				t.moveDown();
@@ -130,14 +145,14 @@ public class GameScreen implements Screen {
 					block.y -= heightp / t.getHeight();
 				}
 			}
-			if(wantToMoveLeft && t.canMoveLeft()){
+			if (wantToMoveLeft && t.canMoveLeft()) {
 				t.moveLeft();
 				for (Rectangle block : brick) {
 					block.x -= widthp / t.getWidth();
 				}
 				wantToMoveLeft = false;
 			}
-			if(wantToMoveRight && t.canMoveRight()){
+			if (wantToMoveRight && t.canMoveRight()) {
 				t.moveRight();
 				for (Rectangle block : brick) {
 					block.x += widthp / t.getWidth();
@@ -145,8 +160,8 @@ public class GameScreen implements Screen {
 				wantToMoveRight = false;
 			}
 		}
-		
-		//Detect move left
+
+		// Detect move left
 		if (Gdx.input.isKeyJustPressed(Keys.A)) {
 			if (t.canMoveLeft()) {
 				t.moveLeft();
@@ -155,10 +170,11 @@ public class GameScreen implements Screen {
 				}
 			} else {
 				wantToMoveLeft = true;
+				wantToMoveRight = false;
 			}
 		}
-		
-		//Detect move right
+
+		// Detect move right
 		if (Gdx.input.isKeyJustPressed(Keys.D)) {
 			if (t.canMoveRight()) {
 				t.moveRight();
@@ -167,10 +183,11 @@ public class GameScreen implements Screen {
 				}
 			} else {
 				wantToMoveRight = true;
+				wantToMoveLeft = false;
 			}
 		}
-		
-		//Detect rotate
+
+		// Detect rotate
 		if (Gdx.input.isKeyJustPressed(Keys.SPACE)) {
 			t.rotate();
 			for (int i = 0; i < brick.length; i++) {
@@ -178,38 +195,42 @@ public class GameScreen implements Screen {
 				brick[i].y = getPixelHeight(i);
 			}
 		}
-		
-		//See if any rows are complete and scores them
-		int rowClear = t.checkForCompletion();
-		if(rowClear == 1){
-			score += 40 * (level + 1);
-			linesClear++;
-		}else if(rowClear == 2){
-			score += 100 * (level + 1);
-			linesClear += 2;
-		}else if(rowClear == 3){
-			score +=  300 * (level + 1);
-			linesClear += 3;
-		}else if(rowClear == 4){
-			score +=  1200 * (level + 1);
-			linesClear += 4;
+
+		// See if any rows are complete and scores them
+		if (t.stopBrick()) {
+			int rowClear = t.checkForCompletion();
+			if (rowClear == 1) {
+				score += 40 * (level + 1);
+				linesClear++;
+			} else if (rowClear == 2) {
+				score += 100 * (level + 1);
+				linesClear += 2;
+			} else if (rowClear == 3) {
+				score += 300 * (level + 1);
+				linesClear += 3;
+			} else if (rowClear == 4) {
+				score += 1200 * (level + 1);
+				linesClear += 4;
+			}
 		}
 		
-		if(level*10 + 10 < linesClear || linesClear > 100){
+		if (level * 1 + 1 < linesClear || linesClear > 100) {
 			level++;
 			linesClear = 0;
 		}
-		
-		//If the brick has stopped, make a new brick
-		if(t.stopBrick() && time % levelTime == levelTime - 1){
+
+		// If the brick has stopped, make a new brick
+		if (t.stopBrick() && ((level <= 29 && time % levelSpeed[level] == levelSpeed[level] - 1)
+				|| (level > 29 && time % levelSpeed[29] == levelSpeed[29] - 1))) {
 			t.insertRandomBrick();
 		}
-		
-		//Check to see if the game is over
-		//TODO make sure this works
-		if(t.endGameDetection() && t.checkForCompletion() == 0){
+
+		// Check to see if the game is over
+		// TODO make sure this works
+		if (t.endGameDetection() && t.checkForCompletion() == 0) {
 			dispose();
 		}
+		System.out.println(levelSpeed.length);
 		System.out.println(time);
 		System.out.println(t);
 		time++;
@@ -223,7 +244,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void pause() {
-		
+
 	}
 
 	@Override

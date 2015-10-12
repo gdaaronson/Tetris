@@ -7,6 +7,8 @@ public class TetrisModel {
 	 * column
 	 */
 	private Block[][] board;
+	
+	private int nextBrickIndex;
 
 	private Brick currentBrick;
 
@@ -34,6 +36,8 @@ public class TetrisModel {
 				board[i][j] = new Block(i, j);
 			}
 		}
+		
+		nextBrickIndex = (int) (7 * Math.random());
 	}
 
 	/** Creates a model based on the string entered */
@@ -173,10 +177,31 @@ public class TetrisModel {
 			spawnZ();
 		}
 	}
+	
+	public char getNextBrick(){
+		if(nextBrickIndex == 0){
+			return 'I';
+		}else if(nextBrickIndex == 1){
+			return 'J';
+		}else if(nextBrickIndex == 2){
+			return 'L';
+		}else if(nextBrickIndex == 3){
+			return 'O';
+		}else if(nextBrickIndex == 4){
+			return 'S';
+		}else if(nextBrickIndex == 5){
+			return 'T';
+		}else if(nextBrickIndex == 6){
+			return 'Z';
+		}else{
+			return 'F';
+		}
+	}
 
 	/** Picks a random block to insert */
 	public void insertRandomBrick() {
-		insertBrick((int) (7 * Math.random()));
+		insertBrick(nextBrickIndex);
+		nextBrickIndex = (int) (7 * Math.random());
 		currentBrick.sort();
 	}
 
