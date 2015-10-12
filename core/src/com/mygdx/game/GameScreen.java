@@ -3,6 +3,7 @@ package com.mygdx.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
@@ -28,6 +29,7 @@ public class GameScreen implements Screen {
 	private int level;
 	private int score;
 	private int linesClear;
+	private Music tetrisMusic;
 
 	public GameScreen(final Tetris game) {
 		this.game = game;
@@ -42,6 +44,8 @@ public class GameScreen implements Screen {
 		linesClear = 0;
 		blockImage = new Texture("badlogic.jpg");
 		brickImage = new Texture("bhb23jpg.bmp");
+		tetrisMusic = Gdx.audio.newMusic(Gdx.files.internal("Tetris A.mp3"));
+		tetrisMusic.setLooping(true);
 
 		camera = new OrthographicCamera();
 		camera.setToOrtho(false, widthp + 200, heightp);
@@ -81,7 +85,7 @@ public class GameScreen implements Screen {
 
 	@Override
 	public void show() {
-
+		tetrisMusic.play();
 	}
 
 	@Override

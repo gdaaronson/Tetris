@@ -18,7 +18,7 @@ public class Tetris extends Game{
 	    }
 
 	    public void render() {
-	        super.render(); //important!
+	        super.render(); //important for some reason
 	    }
 
 	    public void dispose() {
