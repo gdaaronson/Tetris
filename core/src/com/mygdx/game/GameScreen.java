@@ -42,8 +42,9 @@ public class GameScreen implements Screen {
 		level = 0;
 		score = 0;
 		linesClear = 0;
-		blockImage = new Texture("badlogic.jpg");
-		brickImage = new Texture("bhb23jpg.bmp");
+		blockImage = new Texture(Gdx.files.internal("badlogic.jpg"));
+		brickImage = new Texture(Gdx.files.internal("bhb23jpg.bmp"));
+	
 		tetrisMusic = Gdx.audio.newMusic(Gdx.files.internal("Tetris A.mp3"));
 		tetrisMusic.setLooping(true);
 
