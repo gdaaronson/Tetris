@@ -11,28 +11,28 @@ import com.badlogic.gdx.math.Rectangle;
 
 public class GameScreen implements Screen {
 
-	final Tetris game;
-	Texture blockImage;
-	Texture brickImage;
-	Texture white;
-	OrthographicCamera camera;
-	Rectangle[] brick;
 	Rectangle[][] block;
-	TetrisModel t;
-	int widthp;
-	int heightp;
+	Texture blockImage;
+	Rectangle[] brick;
+	Texture brickImage;
+	OrthographicCamera camera;
+	final Tetris game;
 	int height;
-	int width;
-	int time = 0;
-	int levelTime = 60;
-	private boolean wantToMoveLeft;
-	private boolean wantToMoveRight;
+	int heightp;
 	private int level;
-	private int score;
-	private int linesClear;
-	private Music tetrisMusic;
 	final private int[] levelSpeed = { 48, 43, 38, 33, 28, 23, 18, 13, 8, 6, 5, 5, 5, 4, 4, 4, 3, 3, 3, 2, 2, 2, 2, 2,
 			2, 2, 2, 2, 2, 1 };
+	int levelTime = 60;
+	private int linesClear;
+	private int score;
+	TetrisModel t;
+	private Music tetrisMusic;
+	int time = 0;
+	private boolean wantToMoveLeft;
+	private boolean wantToMoveRight;
+	Texture white;
+	int width;
+	int widthp;
 
 	public GameScreen(final Tetris game) {
 		this.game = game;
@@ -71,12 +71,9 @@ public class GameScreen implements Screen {
 		}
 	}
 
-	private float getPixelHeight(int i, int j) {
-		return heightp - t.getBoard()[i][j].getDepth() * heightp / t.getHeight() - heightp / t.getHeight();
-	}
-
-	private float getPixelWidth(int i, int j) {
-		return t.getBoard()[i][j].getWidth() * widthp / t.getWidth();
+	@Override
+	public void dispose() {
+		game.setScreen(new EndGameScreen(game));
 	}
 
 	private int getPixelHeight(int block) {
@@ -84,13 +81,27 @@ public class GameScreen implements Screen {
 				- heightp / t.getHeight();
 	}
 
+	private float getPixelHeight(int i, int j) {
+		return heightp - t.getBoard()[i][j].getDepth() * heightp / t.getHeight() - heightp / t.getHeight();
+	}
+
 	private int getPixelWidth(int block) {
 		return t.getCurrentBrick().getBrick()[block].getWidth() * widthp / t.getWidth();
 	}
 
+	private float getPixelWidth(int i, int j) {
+		return t.getBoard()[i][j].getWidth() * widthp / t.getWidth();
+	}
+
 	@Override
-	public void show() {
-		tetrisMusic.play();
+	public void hide() {
+		// TODO Auto-generated method stub
+
+	}
+
+	@Override
+	public void pause() {
+
 	}
 
 	@Override
@@ -138,7 +149,8 @@ public class GameScreen implements Screen {
 		game.batch.end();
 
 		// Detect move down
-		if (Gdx.input.isKeyPressed(Keys.S) || time % levelTime == levelTime - 1) {
+		if (Gdx.input.isKeyPressed(Keys.S) || ((level <= 29 && time % levelSpeed[level] == levelSpeed[level] - 1)
+				|| (level > 29 && time % levelSpeed[29] == levelSpeed[29] - 1))) {
 			if (t.canMoveDown()) {
 				t.moveDown();
 				for (Rectangle block : brick) {
@@ -230,7 +242,6 @@ public class GameScreen implements Screen {
 		if (t.endGameDetection() && t.checkForCompletion() == 0) {
 			dispose();
 		}
-		System.out.println(levelSpeed.length);
 		System.out.println(time);
 		System.out.println(t);
 		time++;
@@ -243,25 +254,14 @@ public class GameScreen implements Screen {
 	}
 
 	@Override
-	public void pause() {
-
-	}
-
-	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
-	public void hide() {
-		// TODO Auto-generated method stub
-
-	}
-
-	@Override
-	public void dispose() {
-		game.setScreen(new EndGameScreen(game));
+	public void show() {
+		tetrisMusic.play();
 	}
 
 }
